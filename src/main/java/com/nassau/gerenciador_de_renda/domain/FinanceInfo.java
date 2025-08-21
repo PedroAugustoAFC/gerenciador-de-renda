@@ -20,7 +20,7 @@ public class FinanceInfo {
     private String clientId;
     private String income;
     private String profission;
-    private String averageOfExpenses;
+    private Double averageOfExpenses;
     private String civilStatus;
     private String dependents;
     private Double patrimony;
