@@ -12,7 +12,7 @@
 	<artifactId>gerenciador-de-renda</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>gerenciador-de-renda</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Uma API de para o sistema de gerenciador de renda</description>
 	<url/>
 	<licenses>
 		<license/>

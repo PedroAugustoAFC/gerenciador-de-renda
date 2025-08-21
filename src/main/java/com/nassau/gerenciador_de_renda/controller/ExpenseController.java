@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/expense")
 public class ExpenseController {
 
-    @Autowired
-    private ExpenseService expenseService;
+    //@Autowired
+   // private ExpenseService expenseService;
 
     @GetMapping
     public String getExpense() {
