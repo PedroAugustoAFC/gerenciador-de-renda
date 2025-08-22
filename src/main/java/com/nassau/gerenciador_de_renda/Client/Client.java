@@ -1,9 +1,12 @@
-package com.nassau.gerenciador_de_renda.domain;
+package com.nassau.gerenciador_de_renda.Client;
 
+import com.nassau.gerenciador_de_renda.Expense.Expense;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_client")
@@ -19,5 +22,8 @@ public class Client {
     private String email;
     private String password;
     private String cpf;
+
+    @OneToMany(mappedBy = "client")
+    private List<Expense> espense;
 
 }

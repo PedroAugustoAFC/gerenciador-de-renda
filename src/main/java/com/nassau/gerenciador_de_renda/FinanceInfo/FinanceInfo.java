@@ -1,9 +1,11 @@
-package com.nassau.gerenciador_de_renda.domain;
+package com.nassau.gerenciador_de_renda.FinanceInfo;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_finance_info")
@@ -20,7 +22,7 @@ public class FinanceInfo {
     private String profission;
     private Double averageOfExpenses;
     private String civilStatus;
-    private String dependents;
+    private List<String> dependents;
     private Double patrimony;
 
 }

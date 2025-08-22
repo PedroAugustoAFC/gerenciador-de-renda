@@ -1,7 +1,5 @@
-package com.nassau.gerenciador_de_renda.controller;
+package com.nassau.gerenciador_de_renda.Client;
 
-import com.nassau.gerenciador_de_renda.domain.Client;
-import com.nassau.gerenciador_de_renda.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

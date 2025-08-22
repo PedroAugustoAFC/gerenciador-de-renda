@@ -1,4 +1,4 @@
-package com.nassau.gerenciador_de_renda.service;
+package com.nassau.gerenciador_de_renda.Expense;
 
 import org.springframework.stereotype.Service;
 
