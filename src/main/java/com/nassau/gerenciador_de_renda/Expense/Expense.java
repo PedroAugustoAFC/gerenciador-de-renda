@@ -2,14 +2,12 @@ package com.nassau.gerenciador_de_renda.Expense;
 
 import com.nassau.gerenciador_de_renda.Client.Client;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "tb_expense")
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Expense {
 

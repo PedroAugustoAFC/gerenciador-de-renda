@@ -3,15 +3,15 @@ package com.nassau.gerenciador_de_renda.Client;
 import com.nassau.gerenciador_de_renda.Expense.Expense;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "tb_client")
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Client {
 
@@ -20,6 +20,7 @@ public class Client {
     private Long id;
     private String name;
     private String email;
+    //criptografa a senha
     private String password;
     private String cpf;
 

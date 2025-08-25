@@ -5,7 +5,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientService {
 
-    public String cliente(String name){
-        return "Hello World " + name;
+    private ClientRepository clientRepository;
+
+    public Client getClientById(Long id){
+        return clientRepository.findById(id).orElse(null);
     }
+
+    public Client createClient(Client client){
+        return clientRepository.save(client);
+    }
+
+    public void deleteClient(Long id){
+        clientRepository.deleteById(id);
+    }
+
 }

@@ -1,16 +1,14 @@
 package com.nassau.gerenciador_de_renda.FinanceInfo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "tb_finance_info")
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class FinanceInfo {
 
