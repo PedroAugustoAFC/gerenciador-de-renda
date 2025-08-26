@@ -20,10 +20,10 @@ public class ClientService {
     }
 
     public Client createClient(Client client){
-        //if(isEmailExists(client.getEmail())){
-            //throw new EmailException();
-        //}
-        return clientRepository.save(client);
+        if(clientRepository.existsByEmail(client.getEmail())){
+            throw new EmailException();
+        }
+            return clientRepository.save(client);
     }
 
     public void deleteClient(Long id){
