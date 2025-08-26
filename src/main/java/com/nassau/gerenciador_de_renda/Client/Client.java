@@ -18,10 +18,16 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
+    @Column(unique = true)
     private String email;
+
     //criptografa a senha
     private String password;
+
+    //@Column(unique = true)
     private String cpf;
 
     @OneToMany(mappedBy = "client")
