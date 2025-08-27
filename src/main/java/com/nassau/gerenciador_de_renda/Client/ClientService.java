@@ -16,12 +16,12 @@ public class ClientService {
 
     public Client getClientById(Long id){
         return clientRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException());
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente com id " + id + " nao encontrado"));
     }
 
     public Client createClient(Client client){
         if(clientRepository.existsByEmail(client.getEmail())){
-            throw new EmailException();
+            throw new EmailException("Email ja esta em uso");
         }
             return clientRepository.save(client);
     }

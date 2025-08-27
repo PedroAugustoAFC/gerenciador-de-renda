@@ -2,9 +2,12 @@ package com.nassau.gerenciador_de_renda.Client;
 
 import com.nassau.gerenciador_de_renda.Expense.Expense;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.List;
 
@@ -19,9 +22,12 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
+    @Column(nullable = false,unique = true)
+    @NotBlank(message = "Email nao pode ser vazio")
+    @Email(message = "Email invalido")
     private String email;
 
     //criptografa a senha

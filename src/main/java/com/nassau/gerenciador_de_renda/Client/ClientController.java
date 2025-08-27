@@ -1,9 +1,7 @@
 package com.nassau.gerenciador_de_renda.Client;
 
-import com.nassau.gerenciador_de_renda.exceptions.ResourceNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +19,7 @@ public class ClientController {
     }
 
     @PostMapping("/save")
-    public Client clientPost(@RequestBody Client client){
+    public Client clientPost(@Valid @RequestBody Client client){
         return clientService.createClient(client);
     }
 
