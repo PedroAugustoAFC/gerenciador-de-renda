@@ -1,6 +1,6 @@
-package com.nassau.gerenciador_de_renda.Expense;
+package com.nassau.gerenciador_de_renda.expense;
 
-import com.nassau.gerenciador_de_renda.Client.Client;
+import com.nassau.gerenciador_de_renda.client.Client;
 import jakarta.persistence.*;
 import lombok.*;
 

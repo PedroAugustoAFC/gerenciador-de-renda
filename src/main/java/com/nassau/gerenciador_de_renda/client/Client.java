@@ -1,13 +1,13 @@
-package com.nassau.gerenciador_de_renda.Client;
+package com.nassau.gerenciador_de_renda.client;
 
-import com.nassau.gerenciador_de_renda.Expense.Expense;
+import com.nassau.gerenciador_de_renda.expense.Expense;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class Client {
     private Long id;
 
     @Column(nullable = false)
+    @Length(min = 3,max = 60,message = "")
     private String name;
 
     @Column(nullable = false,unique = true)
@@ -31,9 +32,11 @@ public class Client {
     private String email;
 
     //criptografa a senha
+    @Column(nullable = false)
     private String password;
 
     //@Column(unique = true)
+    @Column(nullable = false,unique = true)
     private String cpf;
 
     @OneToMany(mappedBy = "client")

@@ -1,4 +1,4 @@
-package com.nassau.gerenciador_de_renda.Goal;
+package com.nassau.gerenciador_de_renda.goal;
 
 import jakarta.persistence.*;
 import lombok.*;

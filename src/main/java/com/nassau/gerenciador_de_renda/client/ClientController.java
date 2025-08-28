@@ -1,4 +1,4 @@
-package com.nassau.gerenciador_de_renda.Client;
+package com.nassau.gerenciador_de_renda.client;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +14,8 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> clientByID(@PathVariable("id") Long id) {
-            Client client = clientService.getClientById(id);
+            ClientDTO client = clientService.getClientById(id);
             return ResponseEntity.ok(client);
-    }
-
-    @PostMapping("/save")
-    public Client clientPost(@Valid @RequestBody Client client){
-        return clientService.createClient(client);
     }
 
     @DeleteMapping("delete/{id}")

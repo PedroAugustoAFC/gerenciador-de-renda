@@ -1,4 +1,4 @@
-package com.nassau.gerenciador_de_renda.FinanceInfo;
+package com.nassau.gerenciador_de_renda.financeInfo;
 
 import jakarta.persistence.*;
 import lombok.*;
