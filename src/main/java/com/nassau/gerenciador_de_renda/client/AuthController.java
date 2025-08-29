@@ -31,6 +31,6 @@ public class AuthController {
             String token = JwtUtil.generateToken((client.getEmail()));
             return ResponseEntity.ok(Map.of("token", token));
         }
-        return ResponseEntity.status(401).body("credenciais invalidas");
+        return ResponseEntity.status(401).body("Credenciais inválidas");
     }
 }

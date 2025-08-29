@@ -3,6 +3,7 @@ package com.nassau.gerenciador_de_renda.client;
 import com.nassau.gerenciador_de_renda.exceptions.EmailException;
 import com.nassau.gerenciador_de_renda.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
