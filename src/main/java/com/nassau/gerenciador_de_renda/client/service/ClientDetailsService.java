@@ -1,5 +1,7 @@
-package com.nassau.gerenciador_de_renda.client;
+package com.nassau.gerenciador_de_renda.client.service;
 
+import com.nassau.gerenciador_de_renda.client.repository.ClientRepository;
+import com.nassau.gerenciador_de_renda.client.model.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

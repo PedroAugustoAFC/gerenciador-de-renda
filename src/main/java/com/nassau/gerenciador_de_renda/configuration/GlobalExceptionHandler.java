@@ -1,6 +1,6 @@
 package com.nassau.gerenciador_de_renda.configuration;
 
-import com.nassau.gerenciador_de_renda.exceptions.EmailException;
+import com.nassau.gerenciador_de_renda.exceptions.ResourceAlreadyRegisteredException;
 import com.nassau.gerenciador_de_renda.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +25,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(EmailException.class)
-    public ResponseEntity<Object> hendlerEmailException(EmailException ex){
+    @ExceptionHandler(ResourceAlreadyRegisteredException.class)
+    public ResponseEntity<Object> handleResourceAlreadyRegisteredException(ResourceAlreadyRegisteredException ex){
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.BAD_REQUEST.value());
-        body.put("error", "Email já cadastrado");
+        body.put("status", HttpStatus.CONFLICT.value());
+        body.put("error", "Informação já cadastrada");
         body.put("message", ex.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> hendlerGenericException(Exception ex){
+    public ResponseEntity<Object> handleGenericException(Exception ex){
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());

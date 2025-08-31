@@ -1,5 +1,6 @@
-package com.nassau.gerenciador_de_renda.client;
+package com.nassau.gerenciador_de_renda.client.dto;
 
+import com.nassau.gerenciador_de_renda.client.model.Client;
 import lombok.Data;
 
 @Data

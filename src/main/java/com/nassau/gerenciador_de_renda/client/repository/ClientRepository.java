@@ -1,5 +1,6 @@
-package com.nassau.gerenciador_de_renda.client;
+package com.nassau.gerenciador_de_renda.client.repository;
 
+import com.nassau.gerenciador_de_renda.client.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
