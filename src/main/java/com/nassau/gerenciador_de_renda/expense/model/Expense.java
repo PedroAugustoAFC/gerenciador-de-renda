@@ -1,4 +1,4 @@
-package com.nassau.gerenciador_de_renda.expense;
+package com.nassau.gerenciador_de_renda.expense.model;
 
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import jakarta.persistence.*;
@@ -19,7 +19,6 @@ public class Expense {
     private String date;
     private String category;
     private String paymentMethod;
-    private String dateCreated;
     private String familyMemberName;
 
     @ManyToOne

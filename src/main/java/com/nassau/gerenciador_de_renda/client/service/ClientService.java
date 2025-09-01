@@ -79,7 +79,7 @@ public class ClientService {
     public void deleteClient(Long id){
 
         if(!clientRepository.existsById(id)){
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException("Cliente com id " + id + " nao encontrado");
         }
         clientRepository.deleteById(id);
     }

@@ -1,6 +1,6 @@
 package com.nassau.gerenciador_de_renda.client.model;
 
-import com.nassau.gerenciador_de_renda.expense.Expense;
+import com.nassau.gerenciador_de_renda.expense.model.Expense;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -52,6 +52,6 @@ public class Client {
     private String cpf;
 
     @OneToMany(mappedBy = "client")
-    private List<Expense> espense;
+    private List<Expense> expenses;
 
 }
