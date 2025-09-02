@@ -1,10 +1,18 @@
 package com.nassau.gerenciador_de_renda.expense.service;
 
+import com.nassau.gerenciador_de_renda.client.model.Client;
+import com.nassau.gerenciador_de_renda.client.service.ClientService;
+import com.nassau.gerenciador_de_renda.exceptions.ForbiddenException;
 import com.nassau.gerenciador_de_renda.exceptions.ResourceAlreadyRegisteredException;
 import com.nassau.gerenciador_de_renda.exceptions.ResourceNotFoundException;
+import com.nassau.gerenciador_de_renda.exceptions.UnauthorizedException;
+import com.nassau.gerenciador_de_renda.expense.dto.ExpenseFullDTO;
+import com.nassau.gerenciador_de_renda.expense.dto.ExpenseUpdateDTO;
 import com.nassau.gerenciador_de_renda.expense.repository.ExpenseRepository;
 import com.nassau.gerenciador_de_renda.expense.dto.ExpenseDTO;
 import com.nassau.gerenciador_de_renda.expense.model.Expense;
+import com.nassau.gerenciador_de_renda.security.JwtAuthFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +26,13 @@ public class ExpenseService {
     @Autowired
     private ExpenseRepository expenseRepository;
 
-    public ExpenseDTO getExpenseById(Long id){
+    @Autowired
+    private ClientService clientService;
+
+    public ExpenseFullDTO getExpenseById(Long id){
         Expense expense = expenseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Despesa com id " + id + " não encontrada"));
-        return new ExpenseDTO(expense);
+        return new ExpenseFullDTO(expense);
     }
 
     @Transactional(readOnly = true)
@@ -32,12 +43,12 @@ public class ExpenseService {
                 .collect(Collectors.toList());
     }
 
-    public ExpenseDTO createExpense(Expense expense){
+    public ExpenseDTO createExpense(Expense expense, Long clientId){
         Expense savedExpense = expenseRepository.save(expense);
         return new ExpenseDTO(savedExpense);
     }
 
-    public ExpenseDTO updateExpense(Long id, Expense updatedExpense){
+    public ExpenseDTO updateExpense(Long id, ExpenseUpdateDTO updatedExpense){
         Expense existingExpense = expenseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Despesa com id " + id + " não encontrada"));
 

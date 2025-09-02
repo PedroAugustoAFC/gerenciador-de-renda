@@ -4,8 +4,12 @@ import com.nassau.gerenciador_de_renda.client.dto.ClientUpdateDTO;
 import com.nassau.gerenciador_de_renda.client.repository.ClientRepository;
 import com.nassau.gerenciador_de_renda.client.dto.ClientDTO;
 import com.nassau.gerenciador_de_renda.client.model.Client;
+import com.nassau.gerenciador_de_renda.exceptions.ForbiddenException;
 import com.nassau.gerenciador_de_renda.exceptions.ResourceAlreadyRegisteredException;
 import com.nassau.gerenciador_de_renda.exceptions.ResourceNotFoundException;
+import com.nassau.gerenciador_de_renda.exceptions.UnauthorizedException;
+import com.nassau.gerenciador_de_renda.security.JwtAuthFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,8 @@ public class ClientService {
     private ClientRepository clientRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtAuthFilter tokenUtils;
 
     public ClientDTO getClientById(Long id){
         Client client = clientRepository.findById(id)
@@ -37,6 +43,22 @@ public class ClientService {
         client.setPassword(encodedPassword);
         Client savedClient = clientRepository.save(client);
         return new ClientDTO(savedClient);
+    }
+
+    public void validateClientAccess(Long clientId, HttpServletRequest request) {
+        String emailFromToken = tokenUtils.getEmailFromToken(request);
+        if (emailFromToken == null) {
+            throw new UnauthorizedException("Token inválido ou não fornecido");
+        }
+
+        Client clientFromToken = getClientByEmail(emailFromToken);
+        if (clientFromToken == null) {
+            throw new UnauthorizedException("Cliente não encontrado para o token fornecido");
+        }
+
+        if (!clientFromToken.getId().equals(clientId)) {
+            throw new ForbiddenException("Você só pode acessar suas próprias despesas");
+        }
     }
 
     public ClientDTO updateClient(Long id, ClientUpdateDTO updatedClient){

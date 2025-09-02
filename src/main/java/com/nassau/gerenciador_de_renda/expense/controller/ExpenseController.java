@@ -1,8 +1,11 @@
 package com.nassau.gerenciador_de_renda.expense.controller;
 
+import com.nassau.gerenciador_de_renda.expense.dto.ExpenseFullDTO;
+import com.nassau.gerenciador_de_renda.expense.dto.ExpenseUpdateDTO;
 import com.nassau.gerenciador_de_renda.expense.service.ExpenseService;
 import com.nassau.gerenciador_de_renda.expense.dto.ExpenseDTO;
 import com.nassau.gerenciador_de_renda.expense.model.Expense;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +19,13 @@ public class ExpenseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> expenseById(@PathVariable("id") Long id) {
-        ExpenseDTO expenseDTO = expenseService.getExpenseById(id);
-        return ResponseEntity.ok(expenseDTO);
-    }
-
-    @PostMapping
-    public ExpenseDTO expensePost(@RequestBody Expense expense) {
-        return expenseService.createExpense(expense);
+        ExpenseFullDTO expenseFullDTO = expenseService.getExpenseById(id);
+        return ResponseEntity.ok(expenseFullDTO);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ExpenseDTO> expenseUpdate(@PathVariable("id") Long id, @RequestBody Expense expense) {
-        ExpenseDTO updatedExpense = expenseService.updateExpense(id, expense);
+    public ResponseEntity<ExpenseDTO> expenseUpdate(@PathVariable("id") Long id, @Valid @RequestBody ExpenseUpdateDTO expenseUpdateDTO) {
+        ExpenseDTO updatedExpense = expenseService.updateExpense(id, expenseUpdateDTO);
         return ResponseEntity.ok(updatedExpense);
     }
 
