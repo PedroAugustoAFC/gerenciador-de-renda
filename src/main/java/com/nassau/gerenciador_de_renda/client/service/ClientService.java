@@ -52,12 +52,8 @@ public class ClientService {
         }
 
         Client clientFromToken = getClientByEmail(emailFromToken);
-        if (clientFromToken == null) {
-            throw new UnauthorizedException("Cliente não encontrado para o token fornecido");
-        }
-
         if (!clientFromToken.getId().equals(clientId)) {
-            throw new ForbiddenException("Você só pode acessar suas próprias despesas");
+            throw new ForbiddenException("Você só pode acessar suas próprias informações");
         }
     }
 
@@ -65,37 +61,33 @@ public class ClientService {
         Client existingClient = clientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente com id " + id + " nao encontrado"));
 
-        if (existingClient != null) {
-
-            if(updatedClient.getEmail() != null){
-                if(existingClient.getEmail().equals(updatedClient.getEmail())){
-                    throw new ResourceAlreadyRegisteredException("Email igual ao anterior");
-                }if (clientRepository.existsByEmail(updatedClient.getEmail())){
-                    throw new ResourceAlreadyRegisteredException("Email já esta em uso");
-                }
-                existingClient.setEmail(updatedClient.getEmail());
+        if(updatedClient.getEmail() != null){
+            if(existingClient.getEmail().equals(updatedClient.getEmail())){
+                throw new ResourceAlreadyRegisteredException("Email igual ao anterior");
+            }if (clientRepository.existsByEmail(updatedClient.getEmail())){
+                throw new ResourceAlreadyRegisteredException("Email já esta em uso");
             }
-
-            if(updatedClient.getName() != null){
-                if(existingClient.getName().equals(updatedClient.getName())){
-                    throw new ResourceAlreadyRegisteredException("Nome igual ao anterior");
-                }
-                existingClient.setName(updatedClient.getName());
-            }
-
-            if(updatedClient.getPassword() != null){
-                if(existingClient.getPassword().equals(updatedClient.getPassword())){
-                    throw new ResourceAlreadyRegisteredException("Senha igual a anterior");
-                }
-                String encodedPassword = passwordEncoder.encode(updatedClient.getPassword());
-                existingClient.setPassword(encodedPassword);
-            }
-
-            Client savedClient = clientRepository.save(existingClient);
-            return new ClientDTO(savedClient);
-
+            existingClient.setEmail(updatedClient.getEmail());
         }
-        return null;
+
+        if(updatedClient.getName() != null){
+            if(existingClient.getName().equals(updatedClient.getName())){
+                throw new ResourceAlreadyRegisteredException("Nome igual ao anterior");
+            }
+            existingClient.setName(updatedClient.getName());
+        }
+
+        if(updatedClient.getPassword() != null){
+            if(existingClient.getPassword().equals(updatedClient.getPassword())){
+                throw new ResourceAlreadyRegisteredException("Senha igual a anterior");
+            }
+            String encodedPassword = passwordEncoder.encode(updatedClient.getPassword());
+            existingClient.setPassword(encodedPassword);
+        }
+
+        Client savedClient = clientRepository.save(existingClient);
+        return new ClientDTO(savedClient);
+
     }
 
     public void deleteClient(Long id){

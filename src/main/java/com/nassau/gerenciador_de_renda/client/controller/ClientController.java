@@ -4,6 +4,7 @@ import com.nassau.gerenciador_de_renda.client.dto.ClientUpdateDTO;
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import com.nassau.gerenciador_de_renda.client.service.ClientService;
 import com.nassau.gerenciador_de_renda.client.dto.ClientDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,19 +18,24 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> clientByID(@PathVariable("id") Long id) {
+    public ResponseEntity<?> clientByID(@PathVariable("id") Long id, HttpServletRequest request) {
+        clientService.validateClientAccess(id, request);
             ClientDTO client = clientService.getClientById(id);
             return ResponseEntity.ok(client);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ClientDTO> clientUpdate(@PathVariable("id") Long id,@Valid @RequestBody ClientUpdateDTO clientUpdateDTO) {
+    public ResponseEntity<ClientDTO> clientUpdate(@PathVariable("id") Long id,
+                                                  @Valid @RequestBody ClientUpdateDTO clientUpdateDTO,
+                                                  HttpServletRequest request) {
+        clientService.validateClientAccess(id, request);
         ClientDTO updatedClient = clientService.updateClient(id, clientUpdateDTO);
         return ResponseEntity.ok(updatedClient);
     }
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> clientDelete(@PathVariable("id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> clientDelete(@PathVariable("id") Long id, HttpServletRequest request) {
+        clientService.validateClientAccess(id, request);
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();
     }

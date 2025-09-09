@@ -1,5 +1,6 @@
 package com.nassau.gerenciador_de_renda.expense.service;
 
+import com.nassau.gerenciador_de_renda.client.dto.ClientDTO;
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import com.nassau.gerenciador_de_renda.client.service.ClientService;
 import com.nassau.gerenciador_de_renda.exceptions.ForbiddenException;
@@ -29,6 +30,11 @@ public class ExpenseService {
     @Autowired
     private ClientService clientService;
 
+//    public Expense getExpenseRelatory(String initialDate,String endDate, Long clientId){
+//        ClientDTO client = clientService.getClientById(clientId);
+//        return expenseRepository.//função do query no repo(initialDate, endDate, clientId);
+//    }
+
     public ExpenseFullDTO getExpenseById(Long id){
         Expense expense = expenseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Despesa com id " + id + " não encontrada"));
@@ -52,33 +58,30 @@ public class ExpenseService {
         Expense existingExpense = expenseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Despesa com id " + id + " não encontrada"));
 
-        if (existingExpense != null) {
-
-            if(updatedExpense.getDescription() != null){
-                if(existingExpense.getDescription().equals(updatedExpense.getDescription())){
-                    throw new ResourceAlreadyRegisteredException("Descrição igual a anterior");
-                }
-                existingExpense.setDescription(updatedExpense.getDescription());
+        if(updatedExpense.getDescription() != null){
+            if(existingExpense.getDescription().equals(updatedExpense.getDescription())){
+                throw new ResourceAlreadyRegisteredException("Descrição igual a anterior");
             }
-
-            if(updatedExpense.getAmount() != 0){
-                if(existingExpense.getAmount() == updatedExpense.getAmount()){
-                    throw new ResourceAlreadyRegisteredException("Valor igual ao anterior");
-                }
-                existingExpense.setAmount(updatedExpense.getAmount());
-            }
-
-            if(updatedExpense.getDate() != null){
-                if(existingExpense.getDate().equals(updatedExpense.getDate())){
-                    throw new ResourceAlreadyRegisteredException("Data igual a anterior");
-                }
-                existingExpense.setDate(updatedExpense.getDate());
-            }
-
-            Expense savedExpense = expenseRepository.save(existingExpense);
-            return new ExpenseDTO(savedExpense);
+            existingExpense.setDescription(updatedExpense.getDescription());
         }
-        return null;
+
+        if(updatedExpense.getAmount() != 0){
+            if(existingExpense.getAmount() == updatedExpense.getAmount()){
+                throw new ResourceAlreadyRegisteredException("Valor igual ao anterior");
+            }
+            existingExpense.setAmount(updatedExpense.getAmount());
+        }
+
+        if(updatedExpense.getDatePaid() != null){
+            if(existingExpense.getDatePaid().equals(updatedExpense.getDatePaid())){
+                throw new ResourceAlreadyRegisteredException("Data igual a anterior");
+            }
+            existingExpense.setDatePaid(updatedExpense.getDatePaid());
+        }
+
+        Expense savedExpense = expenseRepository.save(existingExpense);
+        return new ExpenseDTO(savedExpense);
+
     }
 
     public void deleteExpense(Long id){

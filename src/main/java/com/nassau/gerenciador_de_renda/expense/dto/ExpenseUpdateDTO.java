@@ -21,6 +21,6 @@ public class ExpenseUpdateDTO {
 
     @Column(nullable = false)
     @NotBlank(message = "Data não pode ser vazia")
-    private String date;
+    private String datePaid;
 
 }

@@ -8,7 +8,8 @@ public class ExpenseFullDTO {
     private Long id;
     private String description;
     private double amount;
-    private String date;
+    private String dateCreated;
+    private String datePaid;
     private String category;
     private String paymentMethod;
     private String familyMemberName;
@@ -20,7 +21,8 @@ public class ExpenseFullDTO {
         id = entity.getId();
         description = entity.getDescription();
         amount = entity.getAmount();
-        date = entity.getDate();
+        dateCreated = entity.getDateCreated();
+        datePaid = entity.getDatePaid();
         category = entity.getCategory();
         paymentMethod = entity.getPaymentMethod();
         familyMemberName = entity.getFamilyMemberName();

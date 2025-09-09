@@ -2,7 +2,6 @@ package com.nassau.gerenciador_de_renda.expense.model;
 
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -29,8 +28,11 @@ public class Expense {
     private double amount;
 
     @Column(nullable = false)
+    private String dateCreated;
+
+    @Column(nullable = false)
     @NotBlank(message = "Data não pode ser vazia")
-    private String date;
+    private String datePaid;
 
     @Column(nullable = false)
     @NotBlank(message = "Categoria não pode ser vazia")

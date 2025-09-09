@@ -8,7 +8,8 @@ public class ExpenseDTO {
 
     private Long id;
     private double amount;
-    private String date;
+    private String dateCreated;
+    private String datePaid;
     private String category;
 
     public ExpenseDTO() {
@@ -17,7 +18,8 @@ public class ExpenseDTO {
     public ExpenseDTO(Expense entity){
         id = entity.getId();
         amount = entity.getAmount();//Valor do pagamento
-        date = entity.getDate();//Data do pagamento
+        dateCreated = entity.getDateCreated();
+        datePaid = entity.getDatePaid();//Data em que o pagamento foi efetuado
         category = entity.getCategory();//exemplo: eletronicos, alimentacao, saude, transporte, lazer, outros
     }
 }

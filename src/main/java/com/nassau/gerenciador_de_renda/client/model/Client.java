@@ -1,6 +1,7 @@
 package com.nassau.gerenciador_de_renda.client.model;
 
 import com.nassau.gerenciador_de_renda.expense.model.Expense;
+import com.nassau.gerenciador_de_renda.financeInfo.model.FinanceInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.List;
 
@@ -44,14 +44,15 @@ public class Client {
     )
     private String password;
 
-    @Column(nullable = false,unique = true)
-    @NotBlank(message = "CPF não pode ser vazio")
-    @Length(min = 11,max = 11,message = "CPF deve ter 11 digitos")
-    @Pattern(regexp = "\\d{11}", message = "CPF deve conter apenas numeros")
-    @CPF(message = "CPF invalido")
-    private String cpf;
-
     @OneToMany(mappedBy = "client")
     private List<Expense> expenses;
+
+    @OneToOne(
+            mappedBy = "client",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY,
+            optional = true
+    )
+    private FinanceInfo financeInfo;
 
 }
