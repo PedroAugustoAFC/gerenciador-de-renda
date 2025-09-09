@@ -25,34 +25,34 @@ public class FinanceInfoService {
         return new FinanceInfoDTO(savedInfo);
     }
 
-    public FinanceInfoUpdateDTO updateFinanceInfo(Long clientId, FinanceInfoUpdateDTO updateDTO) {
+    public FinanceInfoDTO updateFinanceInfo(Long clientId, FinanceInfoUpdateDTO updateFinanceInfo) {
         FinanceInfo existingInfo = financeInfoRepository.findByClientId(clientId)
                 .orElseThrow(() -> new RuntimeException("Informações financeiras do cliente de id " + clientId + " não encontradas."));
 
-        if (updateDTO.getIncome() != null) {
-            if(existingInfo.getIncome() == updateDTO.getIncome()){
+        if (updateFinanceInfo.getIncome() != null) {
+            if(existingInfo.getIncome() == updateFinanceInfo.getIncome()){
                 throw new ResourceAlreadyRegisteredException("Rendimento igual ao anterior");
             }
-            existingInfo.setIncome(updateDTO.getIncome());
+            existingInfo.setIncome(updateFinanceInfo.getIncome());
         }
-        if (updateDTO.getProfission() != null) {
-            if (existingInfo.getProfission().equals(updateDTO.getProfission())){
+        if (updateFinanceInfo.getProfission() != null) {
+            if (existingInfo.getProfission().equals(updateFinanceInfo.getProfission())){
                 throw new ResourceAlreadyRegisteredException("Profissão igual a anterior");
             }
-            existingInfo.setProfission(updateDTO.getProfission());
+            existingInfo.setProfission(updateFinanceInfo.getProfission());
         }
-//        if (updateDTO.getDependents() != null) {
-//            existingInfo.setDependents(updateDTO.getDependents());
+//        if (updateFinanceInfo.getDependents() != null) {
+//            existingInfo.setDependents(updateFinanceInfo.getDependents());
 //        }
-        if (updateDTO.getNetWorth() != null) {
-            if(existingInfo.getNetWorth() == updateDTO.getNetWorth()){
+        if (updateFinanceInfo.getNetWorth() != null) {
+            if(existingInfo.getNetWorth() == updateFinanceInfo.getNetWorth()){
                 throw new ResourceAlreadyRegisteredException("Patrimônio líquido igual ao anterior");
             }
-            existingInfo.setNetWorth(updateDTO.getNetWorth());
+            existingInfo.setNetWorth(updateFinanceInfo.getNetWorth());
         }
 
         FinanceInfo updatedInfo = financeInfoRepository.save(existingInfo);
-        return new FinanceInfoUpdateDTO(updatedInfo);
+        return new FinanceInfoDTO(updatedInfo);
     }
 
     public void deleteFinanceInfo(Long id) {

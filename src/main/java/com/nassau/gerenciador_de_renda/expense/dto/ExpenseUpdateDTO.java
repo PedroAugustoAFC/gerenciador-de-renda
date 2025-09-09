@@ -15,12 +15,10 @@ public class ExpenseUpdateDTO {
     private String description;
 
     @Column(nullable = false)
-    @NotBlank(message = "Valor não pode ser vazio")
     @Min(value = 1, message = "Valor deve ser maior que zero")
     private double amount;
 
     @Column(nullable = false)
-    @NotBlank(message = "Data não pode ser vazia")
     private String datePaid;
 
 }

@@ -1,19 +1,45 @@
 package com.nassau.gerenciador_de_renda.financeInfo.controller;
 
 import com.nassau.gerenciador_de_renda.financeInfo.dto.FinanceInfoDTO;
+import com.nassau.gerenciador_de_renda.financeInfo.dto.FinanceInfoUpdateDTO;
+import com.nassau.gerenciador_de_renda.financeInfo.model.FinanceInfo;
+import com.nassau.gerenciador_de_renda.financeInfo.repository.FinanceInfoRepository;
+import com.nassau.gerenciador_de_renda.financeInfo.service.FinanceInfoService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("client/{clientId}/finance-info")
 public class FinanceInfoController {
 
+    @Autowired
+    private FinanceInfoService financeInfoService;
+
     @GetMapping
-    public ResponseEntity<FinanceInfoDTO> getFinanceInfoByClientId(@PathVariable Long clientId) {
-        return ResponseEntity.ok(new FinanceInfoDTO());
+    public ResponseEntity<FinanceInfoDTO> getFinanceInfoByClientId(@PathVariable("clientId") Long clientId) {
+        FinanceInfoDTO financeInfoDTO = financeInfoService.getFinanceInfoByClientId(clientId);
+        return ResponseEntity.ok(financeInfoDTO);
     }
+
+    @PostMapping
+    public ResponseEntity<FinanceInfoDTO> createFinanceInfo(@Valid @RequestBody FinanceInfo financeInfo) {
+        FinanceInfoDTO financeInfoDTO = financeInfoService.saveFinanceInfo(financeInfo);
+        return ResponseEntity.ok(financeInfoDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<FinanceInfoDTO> updateFinanceInfo(@PathVariable("id") Long id,@Valid @RequestBody FinanceInfoUpdateDTO financeInfoUpdateDTO){
+        FinanceInfoDTO updatedFinanceInfo = financeInfoService.updateFinanceInfo(id, financeInfoUpdateDTO);
+        return ResponseEntity.ok(updatedFinanceInfo);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteFinanceInfo(@PathVariable("id") Long id){
+        financeInfoService.deleteFinanceInfo(id);
+    }
+
+
 
 }
