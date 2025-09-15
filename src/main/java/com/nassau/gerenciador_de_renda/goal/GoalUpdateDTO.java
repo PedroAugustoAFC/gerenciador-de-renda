@@ -1,22 +1,11 @@
 package com.nassau.gerenciador_de_renda.goal;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-@Entity
-@Table(name = "tb_goal")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Goal {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class GoalUpdateDTO {
 
     @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-]+$", message = "Profissão deve conter apenas letras")
     @Length(min = 3, message = "Profissão deve ter no mínimo 3 caracteres")
@@ -29,9 +18,12 @@ public class Goal {
     @NotBlank(message = "Data alvo não pode ser vazia")
     private String targetDate;
 
-    @NotBlank(message = "Data alvo não pode ser vazia")
-    private String dateCreated;
+    public GoalUpdateDTO(){
+    }
 
-    private Long clientId;
-
+    public GoalUpdateDTO(Goal entity){
+        this.description = entity.getDescription();
+        this.targetAmount = entity.getTargetAmount();
+        this.targetDate = entity.getTargetDate();
+    }
 }
