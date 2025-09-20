@@ -1,11 +1,23 @@
-package com.nassau.gerenciador_de_renda.goal;
+package com.nassau.gerenciador_de_renda.goal.model;
 
+import com.nassau.gerenciador_de_renda.client.model.Client;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-public class GoalUpdateDTO {
+@Entity
+@Table(name = "tb_goal")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Goal {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-]+$", message = "Profissão deve conter apenas letras")
     @Length(min = 3, message = "Profissão deve ter no mínimo 3 caracteres")
@@ -18,12 +30,17 @@ public class GoalUpdateDTO {
     @NotBlank(message = "Data alvo não pode ser vazia")
     private String targetDate;
 
-    public GoalUpdateDTO(){
-    }
+    @NotBlank(message = "Data alvo não pode ser vazia")
+    private String dateCreated;
 
-    public GoalUpdateDTO(Goal entity){
-        this.description = entity.getDescription();
-        this.targetAmount = entity.getTargetAmount();
-        this.targetDate = entity.getTargetDate();
-    }
+    @Column(name = "client_id", nullable = false)
+    private Long clientId;
+
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            optional = false
+    )
+    @JoinColumn(name = "client_id", insertable = false, updatable = false)
+    private Client client;
+
 }

@@ -1,19 +1,20 @@
-package com.nassau.gerenciador_de_renda.expense.model;
+package com.nassau.gerenciador_de_renda.revenue.model;
 
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name = "tb_expense")
 @Data
-@NoArgsConstructor
+@Table(name = "tb_revenue")
 @AllArgsConstructor
-public class Expense {
+@NoArgsConstructor
+public class Revenue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,20 +35,6 @@ public class Expense {
     @NotBlank(message = "Data não pode ser vazia")
     private String datePaid;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Categoria não pode ser vazia")
-    private String category;
-
-    @Column(nullable = false)
-    @NotBlank(message = "Método de pagamento não pode ser vazio")
-    private String paymentMethod;
-
-    @Column(nullable = false)
-    @NotBlank(message = "Nome do membro da família não pode ser vazio")
-    @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-]+$", message = "Nome deve conter apenas letras")
-    @Length(min = 3, max = 25, message = "Nome deve ter no minimo 3")
-    private String familyMemberName;
-
     @Column(name = "client_id", nullable = false)
     private Long clientId;
 
@@ -57,5 +44,6 @@ public class Expense {
     )
     @JoinColumn(name = "client_id", insertable = false, updatable = false)
     private Client client;
+
 
 }

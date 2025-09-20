@@ -21,7 +21,6 @@ public class FinanceInfo {
     private Long id;
 
     @Min(value = 1, message = "Renda deve ser maior ou igual a zero")
-    @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$", message = "Renda deve ser um número válido com até duas casas decimais")
     private Double income;
 
     @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-]+$", message = "Profissão deve conter apenas letras")
@@ -31,11 +30,13 @@ public class FinanceInfo {
     private List<String> dependents;
 
     @Min(value = 1, message = "O patrimônio líquido deve ser maior ou igual a zero")
-    @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$", message = "O patrimônio líquido deve ser um número válido com até duas casas decimais")
     private Double netWorth;
 
+    @Column(name = "client_id", nullable = false)
+    private Long clientId;
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false, unique = true)
+    @JoinColumn(name = "client_id", insertable = false, updatable = false)
     private Client client;
 
 }

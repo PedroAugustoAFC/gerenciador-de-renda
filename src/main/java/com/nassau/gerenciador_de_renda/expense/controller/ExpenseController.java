@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/expense")
+@RequestMapping("/expenses")
 public class ExpenseController {
 
     @Autowired
@@ -24,8 +24,8 @@ public class ExpenseController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ExpenseDTO> expenseUpdate(@PathVariable("id") Long id, @Valid @RequestBody ExpenseUpdateDTO expenseUpdateDTO) {
-        ExpenseDTO updatedExpense = expenseService.updateExpense(id, expenseUpdateDTO);
+    public ResponseEntity<ExpenseFullDTO> expenseUpdate(@PathVariable("id") Long id, @Valid @RequestBody ExpenseUpdateDTO expenseUpdateDTO) {
+        ExpenseFullDTO updatedExpense = expenseService.updateExpense(id, expenseUpdateDTO);
         return ResponseEntity.ok(updatedExpense);
     }
 

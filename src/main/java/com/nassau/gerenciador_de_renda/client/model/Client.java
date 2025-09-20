@@ -2,6 +2,8 @@ package com.nassau.gerenciador_de_renda.client.model;
 
 import com.nassau.gerenciador_de_renda.expense.model.Expense;
 import com.nassau.gerenciador_de_renda.financeInfo.model.FinanceInfo;
+import com.nassau.gerenciador_de_renda.goal.model.Goal;
+import com.nassau.gerenciador_de_renda.revenue.model.Revenue;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -44,7 +46,11 @@ public class Client {
     )
     private String password;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(
+            mappedBy = "client",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY
+    )
     private List<Expense> expenses;
 
     @OneToOne(
@@ -54,5 +60,19 @@ public class Client {
             optional = true
     )
     private FinanceInfo financeInfo;
+
+    @OneToMany(
+            mappedBy = "client",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY
+    )
+    private List<Goal> goals;
+
+    @OneToMany(
+            mappedBy = "client",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY
+    )
+    private List<Revenue> revenues;
 
 }

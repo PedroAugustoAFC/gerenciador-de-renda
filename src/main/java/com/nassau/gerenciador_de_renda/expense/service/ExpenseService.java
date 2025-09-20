@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,19 +43,20 @@ public class ExpenseService {
     }
 
     @Transactional(readOnly = true)
-    public List<ExpenseDTO> getAllExpenses() {
-        return expenseRepository.findAll()
+    public List<ExpenseDTO> getAllExpensesByClient(Long clientId) {
+        return expenseRepository.findExpensesByClientId(clientId)
                 .stream()
                 .map(ExpenseDTO::new)
                 .collect(Collectors.toList());
     }
 
-    public ExpenseDTO createExpense(Expense expense, Long clientId){
+    public ExpenseFullDTO createExpense(Expense expense){
+        expense.setDateCreated(LocalDateTime.now().toString());
         Expense savedExpense = expenseRepository.save(expense);
-        return new ExpenseDTO(savedExpense);
+        return new ExpenseFullDTO(savedExpense);
     }
 
-    public ExpenseDTO updateExpense(Long id, ExpenseUpdateDTO updatedExpense){
+    public ExpenseFullDTO updateExpense(Long id, ExpenseUpdateDTO updatedExpense){
         Expense existingExpense = expenseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Despesa com id " + id + " não encontrada"));
 
@@ -80,7 +82,7 @@ public class ExpenseService {
         }
 
         Expense savedExpense = expenseRepository.save(existingExpense);
-        return new ExpenseDTO(savedExpense);
+        return new ExpenseFullDTO(savedExpense);
 
     }
 

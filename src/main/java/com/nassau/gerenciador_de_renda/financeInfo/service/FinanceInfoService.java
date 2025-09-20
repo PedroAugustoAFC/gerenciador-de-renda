@@ -41,9 +41,6 @@ public class FinanceInfoService {
             }
             existingInfo.setProfission(updateFinanceInfo.getProfission());
         }
-//        if (updateFinanceInfo.getDependents() != null) {
-//            existingInfo.setDependents(updateFinanceInfo.getDependents());
-//        }
         if (updateFinanceInfo.getNetWorth() != null) {
             if(existingInfo.getNetWorth() == updateFinanceInfo.getNetWorth()){
                 throw new ResourceAlreadyRegisteredException("Patrimônio líquido igual ao anterior");
@@ -56,6 +53,9 @@ public class FinanceInfoService {
     }
 
     public void deleteFinanceInfo(Long id) {
+        if(!financeInfoRepository.existsById(id)) {
+            throw new RuntimeException("Informações financeiras com id " + id + " não encontradas.");
+        }
         financeInfoRepository.deleteById(id);
     }
 }

@@ -19,10 +19,10 @@ public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtAuthFilter tokenUtils;
+
 
     public ClientDTO getClientById(Long id){
         Client client = clientRepository.findById(id)
@@ -43,18 +43,6 @@ public class ClientService {
         client.setPassword(encodedPassword);
         Client savedClient = clientRepository.save(client);
         return new ClientDTO(savedClient);
-    }
-
-    public void validateClientAccess(Long clientId, HttpServletRequest request) {
-        String emailFromToken = tokenUtils.getEmailFromToken(request);
-        if (emailFromToken == null) {
-            throw new UnauthorizedException("Token inválido ou não fornecido");
-        }
-
-        Client clientFromToken = getClientByEmail(emailFromToken);
-        if (!clientFromToken.getId().equals(clientId)) {
-            throw new ForbiddenException("Você só pode acessar suas próprias informações");
-        }
     }
 
     public ClientDTO updateClient(Long id, ClientUpdateDTO updatedClient){

@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("client/{clientId}/finance-info")
+@RequestMapping("clients/{clientId}/finance-infos")
 public class FinanceInfoController {
 
     @Autowired
@@ -24,7 +24,8 @@ public class FinanceInfoController {
     }
 
     @PostMapping
-    public ResponseEntity<FinanceInfoDTO> createFinanceInfo(@Valid @RequestBody FinanceInfo financeInfo) {
+    public ResponseEntity<FinanceInfoDTO> createFinanceInfo(@PathVariable("clientId") Long clientId,@Valid @RequestBody FinanceInfo financeInfo) {
+        financeInfo.setClientId(clientId);
         FinanceInfoDTO financeInfoDTO = financeInfoService.saveFinanceInfo(financeInfo);
         return ResponseEntity.ok(financeInfoDTO);
     }
