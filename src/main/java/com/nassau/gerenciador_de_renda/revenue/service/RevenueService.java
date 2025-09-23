@@ -2,15 +2,19 @@ package com.nassau.gerenciador_de_renda.revenue.service;
 
 import com.nassau.gerenciador_de_renda.exceptions.ResourceAlreadyRegisteredException;
 import com.nassau.gerenciador_de_renda.exceptions.ResourceNotFoundException;
+import com.nassau.gerenciador_de_renda.expense.dto.ExpenseFullDTO;
+import com.nassau.gerenciador_de_renda.expense.model.categoryEnum.ExpenseCategory;
 import com.nassau.gerenciador_de_renda.revenue.dto.RevenueDTO;
 import com.nassau.gerenciador_de_renda.revenue.dto.RevenueFullDTO;
 import com.nassau.gerenciador_de_renda.revenue.dto.RevenueUpdateDTO;
 import com.nassau.gerenciador_de_renda.revenue.model.Revenue;
+import com.nassau.gerenciador_de_renda.revenue.model.categoryEnum.RevenueCategory;
 import com.nassau.gerenciador_de_renda.revenue.repository.RevenueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,10 +32,40 @@ public class RevenueService {
     }
 
     @Transactional(readOnly = true)
-    public List<RevenueDTO> getRevenuesByClientId(Long clientId) {
-        return revenueRepository.findRevenuesByClientId(clientId)
+    public List<RevenueFullDTO> getFilteredRevenuesByClient(Long clientId, LocalDate startDate, LocalDate endDate, String category) {
+
+        if (startDate == null && endDate == null && (category == null || category.trim().isEmpty())) {
+            return revenueRepository.findRevenuesByClientId(clientId)
+                    .stream()
+                    .map(RevenueFullDTO::new)
+                    .collect(Collectors.toList());
+        }
+
+        if (startDate == null && endDate == null) {
+            throw new IllegalArgumentException("Nenhuma data fornecida" );
+        }
+        if (startDate != null && endDate == null) {
+            throw new IllegalArgumentException("Data final não fornecida");
+        }
+        if (startDate == null && endDate != null) {
+            throw new IllegalArgumentException("Data inicial não fornecida");
+        }
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Data inicial não pode ser posterior à data final");
+        }
+
+        RevenueCategory categoryEnum = null;
+        if (category != null && !category.trim().isEmpty()) {
+            try {
+                categoryEnum = RevenueCategory.fromDisplayName(category.trim());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Categoria inválida: " + category);
+            }
+        }
+
+        return revenueRepository.findFilteredRevenuesByClientId(clientId, startDate, endDate, categoryEnum)
                 .stream()
-                .map(RevenueDTO::new)
+                .map(RevenueFullDTO::new)
                 .collect(Collectors.toList());
     }
 

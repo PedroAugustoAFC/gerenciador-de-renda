@@ -1,7 +1,10 @@
 package com.nassau.gerenciador_de_renda.revenue.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.nassau.gerenciador_de_renda.client.model.Client;
+import com.nassau.gerenciador_de_renda.expense.model.categoryEnum.ExpenseCategory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -41,6 +44,11 @@ public class Revenue {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datePaid;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Categoria não pode ser vazia")
+    private ExpenseCategory category;
+
     @Column(name = "client_id", nullable = false)
     private Long clientId;
 
@@ -51,5 +59,14 @@ public class Revenue {
     @JoinColumn(name = "client_id", insertable = false, updatable = false)
     private Client client;
 
+    @JsonSetter("category")
+    public void setCategoryFromString(String categoryName) {
+        this.category = ExpenseCategory.fromDisplayName(categoryName);
+    }
+
+    @JsonGetter("category")
+    public String getCategoryDisplayName() {
+        return this.category != null ? this.category.getDisplayName() : null;
+    }
 
 }
