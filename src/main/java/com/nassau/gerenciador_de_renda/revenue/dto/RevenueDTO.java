@@ -1,15 +1,20 @@
 package com.nassau.gerenciador_de_renda.revenue.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nassau.gerenciador_de_renda.revenue.model.Revenue;
 import lombok.Data;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class RevenueDTO {
 
     private Long id;
     private double amount;
-    private String dateCreated;
-    private String datePaid;
+    private LocalDateTime dateCreated;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate datePaid;
     private String category;
 
     public RevenueDTO() {

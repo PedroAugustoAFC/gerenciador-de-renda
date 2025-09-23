@@ -1,15 +1,20 @@
 package com.nassau.gerenciador_de_renda.goal.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nassau.gerenciador_de_renda.goal.model.Goal;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class GoalDTO {
 
     private Long id;
     private String description;
     private Double targetAmount;
-    private String targetDate;
-    private String dateCreated;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate targetDate;
+    private LocalDateTime dateCreated;
     private Long clientId;
 
 

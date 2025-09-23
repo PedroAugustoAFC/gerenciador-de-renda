@@ -36,7 +36,7 @@ public class RevenueService {
     }
 
     public RevenueFullDTO saveRevenue(Revenue revenue) {
-        revenue.setDateCreated(LocalDateTime.now().toString());
+        revenue.setDateCreated(LocalDateTime.now());
         Revenue savedRevenue = revenueRepository.save(revenue);
         return new RevenueFullDTO(savedRevenue);
     }

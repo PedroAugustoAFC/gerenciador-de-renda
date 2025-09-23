@@ -1,13 +1,18 @@
 package com.nassau.gerenciador_de_renda.revenue.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -29,11 +34,12 @@ public class Revenue {
     private double amount;
 
     @Column(nullable = false)
-    private String dateCreated;
+    private LocalDateTime dateCreated;
 
     @Column(nullable = false)
-    @NotBlank(message = "Data não pode ser vazia")
-    private String datePaid;
+    @NotNull(message = "Data não pode ser vazia")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate datePaid;
 
     @Column(name = "client_id", nullable = false)
     private Long clientId;

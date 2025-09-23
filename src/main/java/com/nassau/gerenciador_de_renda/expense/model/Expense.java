@@ -1,12 +1,20 @@
 package com.nassau.gerenciador_de_renda.expense.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.nassau.gerenciador_de_renda.client.model.Client;
+import com.nassau.gerenciador_de_renda.expense.model.categoryEnum.ExpenseCategory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_expense")
@@ -28,15 +36,17 @@ public class Expense {
     private double amount;
 
     @Column(nullable = false)
-    private String dateCreated;
+    private LocalDateTime dateCreated;
 
     @Column(nullable = false)
-    @NotBlank(message = "Data não pode ser vazia")
-    private String datePaid;
+    @NotNull(message = "Data não pode ser vazia")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate datePaid;
 
     @Column(nullable = false)
-    @NotBlank(message = "Categoria não pode ser vazia")
-    private String category;
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Categoria não pode ser vazia")
+    private ExpenseCategory category;
 
     @Column(nullable = false)
     @NotBlank(message = "Método de pagamento não pode ser vazio")
@@ -57,5 +67,15 @@ public class Expense {
     )
     @JoinColumn(name = "client_id", insertable = false, updatable = false)
     private Client client;
+
+    @JsonSetter("category")
+    public void setCategoryFromString(String categoryName) {
+        this.category = ExpenseCategory.fromDisplayName(categoryName);
+    }
+
+    @JsonGetter("category")
+    public String getCategoryDisplayName() {
+        return this.category != null ? this.category.getDisplayName() : null;
+    }
 
 }

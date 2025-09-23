@@ -1,11 +1,12 @@
 package com.nassau.gerenciador_de_renda.expense.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+
+import java.time.LocalDate;
 
 @Data
 public class ExpenseUpdateDTO {
@@ -19,6 +20,7 @@ public class ExpenseUpdateDTO {
     private double amount;
 
     @Column(nullable = false)
-    private String datePaid;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate datePaid;
 
 }

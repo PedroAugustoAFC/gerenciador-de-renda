@@ -1,12 +1,17 @@
 package com.nassau.gerenciador_de_renda.goal.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_goal")
@@ -27,11 +32,12 @@ public class Goal {
     @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$", message = "O valor alvo deve ser um número válido com até duas casas decimais")
     private double targetAmount;
 
-    @NotBlank(message = "Data alvo não pode ser vazia")
-    private String targetDate;
+    @NotNull(message = "Data alvo não pode ser vazia")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate targetDate;
 
     @NotBlank(message = "Data alvo não pode ser vazia")
-    private String dateCreated;
+    private LocalDateTime dateCreated;
 
     @Column(name = "client_id", nullable = false)
     private Long clientId;
