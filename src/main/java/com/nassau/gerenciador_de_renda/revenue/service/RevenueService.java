@@ -2,10 +2,7 @@ package com.nassau.gerenciador_de_renda.revenue.service;
 
 import com.nassau.gerenciador_de_renda.exceptions.ResourceAlreadyRegisteredException;
 import com.nassau.gerenciador_de_renda.exceptions.ResourceNotFoundException;
-import com.nassau.gerenciador_de_renda.expense.dto.ExpenseFullDTO;
-import com.nassau.gerenciador_de_renda.expense.model.categoryEnum.ExpenseCategory;
 import com.nassau.gerenciador_de_renda.revenue.dto.RevenueDTO;
-import com.nassau.gerenciador_de_renda.revenue.dto.RevenueFullDTO;
 import com.nassau.gerenciador_de_renda.revenue.dto.RevenueUpdateDTO;
 import com.nassau.gerenciador_de_renda.revenue.model.Revenue;
 import com.nassau.gerenciador_de_renda.revenue.model.categoryEnum.RevenueCategory;
@@ -25,19 +22,13 @@ public class RevenueService {
     @Autowired
     private RevenueRepository revenueRepository;
 
-    public RevenueFullDTO getRevenueById(Long id) {
-        Revenue revenue = revenueRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Receita com id " + id + " não encontrada"));
-        return new RevenueFullDTO(revenue);
-    }
-
     @Transactional(readOnly = true)
-    public List<RevenueFullDTO> getFilteredRevenuesByClient(Long clientId, LocalDate startDate, LocalDate endDate, String category) {
+    public List<RevenueDTO> getFilteredRevenuesByClient(Long clientId, LocalDate startDate, LocalDate endDate, String category) {
 
         if (startDate == null && endDate == null && (category == null || category.trim().isEmpty())) {
             return revenueRepository.findRevenuesByClientId(clientId)
                     .stream()
-                    .map(RevenueFullDTO::new)
+                    .map(RevenueDTO::new)
                     .collect(Collectors.toList());
         }
 
@@ -65,17 +56,17 @@ public class RevenueService {
 
         return revenueRepository.findFilteredRevenuesByClientId(clientId, startDate, endDate, categoryEnum)
                 .stream()
-                .map(RevenueFullDTO::new)
+                .map(RevenueDTO::new)
                 .collect(Collectors.toList());
     }
 
-    public RevenueFullDTO saveRevenue(Revenue revenue) {
+    public RevenueDTO saveRevenue(Revenue revenue) {
         revenue.setDateCreated(LocalDateTime.now());
         Revenue savedRevenue = revenueRepository.save(revenue);
-        return new RevenueFullDTO(savedRevenue);
+        return new RevenueDTO(savedRevenue);
     }
 
-    public RevenueFullDTO updateRevenue(Long id, RevenueUpdateDTO updatedRevenue){
+    public RevenueDTO updateRevenue(Long id, RevenueUpdateDTO updatedRevenue){
         Revenue existingRevenue = revenueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Despesa com id " + id + " não encontrada"));
 
@@ -101,7 +92,7 @@ public class RevenueService {
         }
 
         Revenue savedRevenue = revenueRepository.save(existingRevenue);
-        return new RevenueFullDTO(savedRevenue);
+        return new RevenueDTO(savedRevenue);
 
     }
 

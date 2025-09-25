@@ -9,21 +9,24 @@ import java.time.LocalDateTime;
 
 @Data
 public class RevenueDTO {
-
     private Long id;
+    private String description;
     private double amount;
     private LocalDateTime dateCreated;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datePaid;
     private String category;
+    private String paymentMethod;
+    private String familyMemberName;
 
     public RevenueDTO() {
     }
 
     public RevenueDTO(Revenue entity){
         id = entity.getId();
-        amount = entity.getAmount();//Valor do pagamento
+        description = entity.getDescription();
+        amount = entity.getAmount();
         dateCreated = entity.getDateCreated();
-        datePaid = entity.getDatePaid();//Data em que o pagamento foi efetuado
+        datePaid = entity.getDatePaid();
     }
 }

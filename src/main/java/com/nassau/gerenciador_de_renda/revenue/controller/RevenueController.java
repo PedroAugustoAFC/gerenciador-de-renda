@@ -1,8 +1,6 @@
 package com.nassau.gerenciador_de_renda.revenue.controller;
 
-import com.nassau.gerenciador_de_renda.expense.dto.ExpenseFullDTO;
-import com.nassau.gerenciador_de_renda.expense.dto.ExpenseUpdateDTO;
-import com.nassau.gerenciador_de_renda.revenue.dto.RevenueFullDTO;
+import com.nassau.gerenciador_de_renda.revenue.dto.RevenueDTO;
 import com.nassau.gerenciador_de_renda.revenue.dto.RevenueUpdateDTO;
 import com.nassau.gerenciador_de_renda.revenue.service.RevenueService;
 import jakarta.validation.Valid;
@@ -17,16 +15,10 @@ public class RevenueController {
     @Autowired
     private RevenueService revenueService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> revenueById(@PathVariable("id") Long id) {
-        RevenueFullDTO revenueFullDTO = revenueService.getRevenueById(id);
-        return ResponseEntity.ok(revenueFullDTO);
-    }
-
     @PatchMapping("/{id}")
-    public ResponseEntity<RevenueFullDTO> revenueUpdate(@PathVariable("id") Long id, @Valid @RequestBody RevenueUpdateDTO revenueUpdateDTO) {
-        RevenueFullDTO revenueFullDTO = revenueService.updateRevenue(id, revenueUpdateDTO);
-        return ResponseEntity.ok(revenueFullDTO);
+    public ResponseEntity<RevenueDTO> revenueUpdate(@PathVariable("id") Long id, @Valid @RequestBody RevenueUpdateDTO revenueUpdateDTO) {
+        RevenueDTO revenueDTO = revenueService.updateRevenue(id, revenueUpdateDTO);
+        return ResponseEntity.ok(revenueDTO);
     }
 
     @DeleteMapping("/{id}")

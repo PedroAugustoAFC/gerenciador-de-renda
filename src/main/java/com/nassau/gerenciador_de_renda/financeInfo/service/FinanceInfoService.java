@@ -52,6 +52,36 @@ public class FinanceInfoService {
         return new FinanceInfoDTO(updatedInfo);
     }
 
+    public FinanceInfoDTO updateNetWorthAfterExpense(Long clientId, double expenseValue) {
+        FinanceInfo existingInfo = financeInfoRepository.findByClientId(clientId)
+                .orElseThrow(() -> new RuntimeException("Informações financeiras do cliente de id " + clientId + " não encontradas."));
+
+        double currentNetWorth = existingInfo.getNetWorth() != null ? existingInfo.getNetWorth() : 0.0;
+        double newNetWorth = currentNetWorth - expenseValue;
+
+        if (newNetWorth < 0) {
+            throw new IllegalArgumentException("Patrimônio líquido não pode ficar negativo após a despesa");
+        }
+
+        existingInfo.setNetWorth(newNetWorth);
+
+        FinanceInfo updatedInfo = financeInfoRepository.save(existingInfo);
+        return new FinanceInfoDTO(updatedInfo);
+    }
+
+    public FinanceInfoDTO updateNetWorthAfterRevenue(Long clientId, double revenueValue) {
+        FinanceInfo existingInfo = financeInfoRepository.findByClientId(clientId)
+                .orElseThrow(() -> new RuntimeException("Informações financeiras do cliente de id " + clientId + " não encontradas."));
+
+        double currentNetWorth = existingInfo.getNetWorth() != null ? existingInfo.getNetWorth() : 0.0;
+        double newNetWorth = currentNetWorth + revenueValue;
+
+        existingInfo.setNetWorth(newNetWorth);
+
+        FinanceInfo updatedInfo = financeInfoRepository.save(existingInfo);
+        return new FinanceInfoDTO(updatedInfo);
+    }
+
     public void deleteFinanceInfo(Long id) {
         if(!financeInfoRepository.existsById(id)) {
             throw new RuntimeException("Informações financeiras com id " + id + " não encontradas.");

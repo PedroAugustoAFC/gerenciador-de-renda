@@ -4,10 +4,9 @@ import com.nassau.gerenciador_de_renda.client.service.ClientService;
 import com.nassau.gerenciador_de_renda.exceptions.ResourceAlreadyRegisteredException;
 import com.nassau.gerenciador_de_renda.exceptions.ResourceNotFoundException;
 import com.nassau.gerenciador_de_renda.expense.model.categoryEnum.ExpenseCategory;
-import com.nassau.gerenciador_de_renda.expense.dto.ExpenseFullDTO;
+import com.nassau.gerenciador_de_renda.expense.dto.ExpenseDTO;
 import com.nassau.gerenciador_de_renda.expense.dto.ExpenseUpdateDTO;
 import com.nassau.gerenciador_de_renda.expense.repository.ExpenseRepository;
-import com.nassau.gerenciador_de_renda.expense.dto.ExpenseDTO;
 import com.nassau.gerenciador_de_renda.expense.model.Expense;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,24 +26,13 @@ public class ExpenseService {
     @Autowired
     private ClientService clientService;
 
-//    public Expense getExpenseRelatory(String initialDate,String endDate, Long clientId){
-//        ClientDTO client = clientService.getClientById(clientId);
-//        return expenseRepository.//função do query no repo(initialDate, endDate, clientId);
-//    }
-
-    public ExpenseFullDTO getExpenseById(Long id){
-        Expense expense = expenseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Despesa com id " + id + " não encontrada"));
-        return new ExpenseFullDTO(expense);
-    }
-
     @Transactional(readOnly = true)
-    public List<ExpenseFullDTO> getFilteredExpensesByClient(Long clientId, LocalDate startDate, LocalDate endDate, String category) {
+    public List<ExpenseDTO> getFilteredExpensesByClient(Long clientId, LocalDate startDate, LocalDate endDate, String category) {
 
         if (startDate == null && endDate == null && (category == null || category.trim().isEmpty())) {
             return expenseRepository.findExpensesByClientId(clientId)
                     .stream()
-                    .map(ExpenseFullDTO::new)
+                    .map(ExpenseDTO::new)
                     .collect(Collectors.toList());
         }
 
@@ -72,17 +60,17 @@ public class ExpenseService {
 
         return expenseRepository.findFilteredExpensesByClientId(clientId, startDate, endDate, categoryEnum)
                 .stream()
-                .map(ExpenseFullDTO::new)
+                .map(ExpenseDTO::new)
                 .collect(Collectors.toList());
     }
 
-    public ExpenseFullDTO createExpense(Expense expense){
+    public ExpenseDTO createExpense(Expense expense){
         expense.setDateCreated(LocalDateTime.now());
         Expense savedExpense = expenseRepository.save(expense);
-        return new ExpenseFullDTO(savedExpense);
+        return new ExpenseDTO(savedExpense);
     }
 
-    public ExpenseFullDTO updateExpense(Long id, ExpenseUpdateDTO updatedExpense){
+    public ExpenseDTO updateExpense(Long id, ExpenseUpdateDTO updatedExpense){
         Expense existingExpense = expenseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Despesa com id " + id + " não encontrada"));
 
@@ -108,7 +96,7 @@ public class ExpenseService {
         }
 
         Expense savedExpense = expenseRepository.save(existingExpense);
-        return new ExpenseFullDTO(savedExpense);
+        return new ExpenseDTO(savedExpense);
 
     }
 

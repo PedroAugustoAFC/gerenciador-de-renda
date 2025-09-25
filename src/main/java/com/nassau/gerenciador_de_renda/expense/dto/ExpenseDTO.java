@@ -10,22 +10,27 @@ import java.time.LocalDateTime;
 
 @Data
 public class ExpenseDTO {
-
     private Long id;
+    private String description;
     private double amount;
     private LocalDateTime dateCreated;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datePaid;
     private ExpenseCategory category;
+    private String paymentMethod;
+    private String familyMemberName;
 
     public ExpenseDTO() {
     }
 
     public ExpenseDTO(Expense entity){
         id = entity.getId();
-        amount = entity.getAmount();//Valor do pagamento
+        description = entity.getDescription();
+        amount = entity.getAmount();
         dateCreated = entity.getDateCreated();
-        datePaid = entity.getDatePaid();//Data em que o pagamento foi efetuado
-        category = entity.getCategory();//exemplo: eletronicos, alimentacao, saude, transporte, lazer, outros
+        datePaid = entity.getDatePaid();
+        category = entity.getCategory();
+        paymentMethod = entity.getPaymentMethod();
+        familyMemberName = entity.getFamilyMemberName();
     }
 }
