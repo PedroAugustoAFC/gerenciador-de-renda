@@ -11,12 +11,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface RevenueRepository extends JpaRepository<Revenue, Long> {
+public interface RevenueRepository extends JpaRepository<Revenue, UUID> {
 
     @Query("SELECT e FROM Revenue e WHERE e.client.id = :clientId")
-    List<Revenue> findRevenuesByClientId(@Param("clientId") Long clientId);
+    List<Revenue> findRevenuesByClientId(@Param("clientId") UUID clientId);
 
     @Query("SELECT e FROM Revenue e WHERE e.client.id = :clientId " +
             "AND (:startDate IS NULL OR e.datePaid >= :startDate) " +
@@ -24,7 +25,7 @@ public interface RevenueRepository extends JpaRepository<Revenue, Long> {
             "AND (:category IS NULL OR LOWER(e.category) = LOWER(:category)) " +
             "ORDER BY e.datePaid DESC")
     List<Revenue> findFilteredRevenuesByClientId(
-            @Param("clientId") Long clientId,
+            @Param("clientId") UUID clientId,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
             @Param("category") RevenueCategory category);

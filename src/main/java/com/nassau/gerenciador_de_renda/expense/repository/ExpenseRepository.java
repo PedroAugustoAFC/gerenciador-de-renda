@@ -9,12 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface ExpenseRepository extends JpaRepository<Expense, Long> {
+public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
 
     @Query("SELECT e FROM Expense e WHERE e.client.id = :clientId")
-    List<Expense> findExpensesByClientId(@Param("clientId") Long clientId);
+    List<Expense> findExpensesByClientId(@Param("clientId") UUID clientId);
 
     @Query("SELECT e FROM Expense e WHERE e.client.id = :clientId " +
             "AND (:startDate IS NULL OR e.datePaid >= :startDate) " +
@@ -22,7 +23,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             "AND (:category IS NULL OR LOWER(e.category) = LOWER(:category)) " +
             "ORDER BY e.datePaid DESC")
     List<Expense> findFilteredExpensesByClientId(
-            @Param("clientId") Long clientId,
+            @Param("clientId") UUID clientId,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
             @Param("category") ExpenseCategory category);

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
@@ -22,14 +24,14 @@ public class ClientController {
     private ValidateAccessService validateAccessService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> clientByID(@PathVariable("id") Long id, HttpServletRequest request) {
+    public ResponseEntity<?> clientByID(@PathVariable("id") UUID id, HttpServletRequest request) {
         validateAccessService.validateClientAccess(id, request);
             ClientDTO client = clientService.getClientById(id);
             return ResponseEntity.ok(client);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ClientDTO> clientUpdate(@PathVariable("id") Long id,
+    public ResponseEntity<ClientDTO> clientUpdate(@PathVariable("id") UUID id,
                                                   @Valid @RequestBody ClientUpdateDTO clientUpdateDTO,
                                                   HttpServletRequest request) {
         validateAccessService.validateClientAccess(id, request);
@@ -38,7 +40,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> clientDelete(@PathVariable("id") Long id, HttpServletRequest request) {
+    public ResponseEntity<Void> clientDelete(@PathVariable("id") UUID id, HttpServletRequest request) {
         validateAccessService.validateClientAccess(id, request);
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();

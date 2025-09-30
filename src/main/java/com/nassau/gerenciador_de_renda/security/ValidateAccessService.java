@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ValidateAccessService {
 
@@ -21,7 +23,7 @@ public class ValidateAccessService {
     @Autowired
     private JwtAuthFilter tokenUtils;
 
-    public void validateClientAccess(Long clientId, HttpServletRequest request) {
+    public void validateClientAccess(UUID clientId, HttpServletRequest request) {
         String emailFromToken = tokenUtils.getEmailFromToken(request);
         if (emailFromToken == null) {
             throw new UnauthorizedException("Token inválido ou não fornecido");

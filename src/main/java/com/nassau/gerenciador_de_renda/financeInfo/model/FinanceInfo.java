@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_finance_info")
@@ -17,8 +18,8 @@ import java.util.List;
 public class FinanceInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Min(value = 1, message = "Renda deve ser maior ou igual a zero")
     private Double income;
@@ -33,7 +34,7 @@ public class FinanceInfo {
     private Double netWorth;
 
     @Column(name = "client_id", nullable = false)
-    private Long clientId;
+    private UUID clientId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", insertable = false, updatable = false)

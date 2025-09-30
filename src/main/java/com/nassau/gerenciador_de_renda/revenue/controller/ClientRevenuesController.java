@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/client/{id}/revenues")
@@ -30,7 +31,7 @@ public class ClientRevenuesController {
 
     @GetMapping
     public ResponseEntity<List<RevenueDTO>> listAllRevenues(
-            @PathVariable("id") Long clientId,
+            @PathVariable("id") UUID clientId,
             @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate startDate,
             @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate endDate,
             @RequestParam(value = "category", required = false) String category,
@@ -42,7 +43,7 @@ public class ClientRevenuesController {
     }
 
     @PostMapping
-    public ResponseEntity<RevenueDTO> revenuePost(@Valid @RequestBody Revenue revenue, @PathVariable("id") Long clientId, HttpServletRequest request){
+    public ResponseEntity<RevenueDTO> revenuePost(@Valid @RequestBody Revenue revenue, @PathVariable("id") UUID clientId, HttpServletRequest request){
         validateAccessService.validateClientAccess(clientId, request);
 
         double revenueValue = revenue.getAmount();

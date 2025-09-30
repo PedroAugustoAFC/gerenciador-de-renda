@@ -6,16 +6,17 @@ import com.nassau.gerenciador_de_renda.goal.model.Goal;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class GoalDTO {
 
-    private Long id;
+    private UUID id;
     private String description;
     private Double targetAmount;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate targetDate;
     private LocalDateTime dateCreated;
-    private Long clientId;
+    private UUID clientId;
 
 
     public GoalDTO(Goal entity) {

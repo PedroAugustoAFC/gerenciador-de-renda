@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +24,7 @@ public class RevenueService {
     private RevenueRepository revenueRepository;
 
     @Transactional(readOnly = true)
-    public List<RevenueDTO> getFilteredRevenuesByClient(Long clientId, LocalDate startDate, LocalDate endDate, String category) {
+    public List<RevenueDTO> getFilteredRevenuesByClient(UUID clientId, LocalDate startDate, LocalDate endDate, String category) {
 
         if (startDate == null && endDate == null && (category == null || category.trim().isEmpty())) {
             return revenueRepository.findRevenuesByClientId(clientId)
@@ -66,7 +67,7 @@ public class RevenueService {
         return new RevenueDTO(savedRevenue);
     }
 
-    public RevenueDTO updateRevenue(Long id, RevenueUpdateDTO updatedRevenue){
+    public RevenueDTO updateRevenue(UUID id, RevenueUpdateDTO updatedRevenue){
         Revenue existingRevenue = revenueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Despesa com id " + id + " não encontrada"));
 
@@ -96,7 +97,7 @@ public class RevenueService {
 
     }
 
-    public void deleteRevenue(Long id) {
+    public void deleteRevenue(UUID id) {
         if (!revenueRepository.existsById(id)) {
             throw new ResourceNotFoundException("Receita com id " + id + " não encontrada");
         }

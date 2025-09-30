@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/expenses")
 public class ExpenseController {
@@ -16,13 +18,13 @@ public class ExpenseController {
     private ExpenseService expenseService;
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ExpenseDTO> expenseUpdate(@PathVariable("id") Long id, @Valid @RequestBody ExpenseUpdateDTO expenseUpdateDTO) {
+    public ResponseEntity<ExpenseDTO> expenseUpdate(@PathVariable("id") UUID id, @Valid @RequestBody ExpenseUpdateDTO expenseUpdateDTO) {
         ExpenseDTO updatedExpense = expenseService.updateExpense(id, expenseUpdateDTO);
         return ResponseEntity.ok(updatedExpense);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> expenseDelete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> expenseDelete(@PathVariable("id") UUID id) {
         expenseService.deleteExpense(id);
         return ResponseEntity.noContent().build();
     }

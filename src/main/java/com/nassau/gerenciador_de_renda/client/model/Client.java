@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_client")
@@ -23,8 +24,8 @@ import java.util.List;
 public class Client {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(nullable = false)
     @Length(min = 3,max = 60,message = "Nome deve ter no minimo 3")

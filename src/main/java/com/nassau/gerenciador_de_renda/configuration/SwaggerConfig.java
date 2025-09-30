@@ -14,7 +14,8 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("JavaInUse Authentication Service"))
+                .info(new Info().title("Gerenciador de Renda API").version("1.0").description(
+                        "API para gerenciamento financeiro pessoal, incluindo clientes, rendas, despesas e metas financeiras."))
                 .addSecurityItem(new SecurityRequirement().addList("JavaInUseSecurityScheme"))
                 .components(new Components().addSecuritySchemes("JavaInUseSecurityScheme", new SecurityScheme()
                         .name("JavaInUseSecurityScheme")

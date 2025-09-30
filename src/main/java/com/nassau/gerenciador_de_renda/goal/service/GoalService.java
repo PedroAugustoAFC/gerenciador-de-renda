@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,12 +21,12 @@ public class GoalService {
     @Autowired
     private GoalRepository goalRepository;
 
-    public Goal getGoalById(Long id){
+    public Goal getGoalById(UUID id){
         return goalRepository.getById(id);
     }
 
     @Transactional(readOnly = true)
-    public List<GoalDTO> getAllGoalsByClient(Long clientId) {
+    public List<GoalDTO> getAllGoalsByClient(UUID clientId) {
         return goalRepository.findGoalsByClientId(clientId)
                 .stream()
                 .map(GoalDTO::new)
@@ -38,7 +39,7 @@ public class GoalService {
         return new GoalDTO(goalSaved);
     }
 
-    public GoalDTO updateGoal(Long id, GoalUpdateDTO updatedGoal){
+    public GoalDTO updateGoal(UUID id, GoalUpdateDTO updatedGoal){
         Goal existingGoal = goalRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Meta com id " + id + " não encontrada"));
 
@@ -67,7 +68,7 @@ public class GoalService {
         return new GoalDTO(savedGoal);
     }
 
-    public void deleteGoal(Long id){
+    public void deleteGoal(UUID id){
         if(!goalRepository.existsById(id)) {
             throw new RuntimeException("Meta com id " + id + " não encontrada.");
         }

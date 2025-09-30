@@ -15,6 +15,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_expense")
@@ -24,8 +25,8 @@ import java.time.LocalDateTime;
 public class Expense {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(length = 255)
     @Length(max = 255, message = "Descrição deve ter no máximo 255 caracteres")
@@ -59,7 +60,7 @@ public class Expense {
     private String familyMemberName;
 
     @Column(name = "client_id", nullable = false)
-    private Long clientId;
+    private UUID clientId;
 
     @ManyToOne(
             fetch = FetchType.LAZY,

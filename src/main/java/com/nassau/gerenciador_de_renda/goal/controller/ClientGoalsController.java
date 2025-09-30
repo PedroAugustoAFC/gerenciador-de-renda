@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/clients/{clientId}/goals")
@@ -24,14 +25,14 @@ public class ClientGoalsController {
     private ValidateAccessService validateAccessService;
 
     @GetMapping
-    public ResponseEntity<List<GoalDTO>> listAllGoals(@PathVariable("id") Long clientId, HttpServletRequest request) {
+    public ResponseEntity<List<GoalDTO>> listAllGoals(@PathVariable("id") UUID clientId, HttpServletRequest request) {
         validateAccessService.validateClientAccess(clientId, request);
         List<GoalDTO> goals = goalService.getAllGoalsByClient(clientId);
         return ResponseEntity.ok(goals);
     }
 
     @PostMapping
-    public ResponseEntity<GoalDTO> goalPost(@PathVariable("id") Long clientId, @Valid @RequestBody Goal goal,
+    public ResponseEntity<GoalDTO> goalPost(@PathVariable("id") UUID clientId, @Valid @RequestBody Goal goal,
                                                   HttpServletRequest request) {
         validateAccessService.validateClientAccess(clientId, request);
         goal.setClientId(clientId);

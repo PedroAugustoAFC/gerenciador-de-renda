@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/client/{id}/expenses")
@@ -30,7 +31,7 @@ public class ClientExpensesController {
 
     @GetMapping
     public ResponseEntity<List<ExpenseDTO>> listAllExpenses(
-            @PathVariable("id") Long clientId,
+            @PathVariable("id") UUID clientId,
             @RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate startDate,
             @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate endDate,
             @RequestParam(value = "category", required = false) String category,
@@ -42,7 +43,7 @@ public class ClientExpensesController {
     }
 
     @PostMapping
-    public ResponseEntity<ExpenseDTO> expensePost(@PathVariable("id") Long clientId, @Valid @RequestBody Expense expense,
+    public ResponseEntity<ExpenseDTO> expensePost(@PathVariable("id") UUID clientId, @Valid @RequestBody Expense expense,
                                                   HttpServletRequest request) {
         validateAccessService.validateClientAccess(clientId, request);
 

@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface FinanceInfoRepository extends JpaRepository<FinanceInfo, Long> {
+public interface FinanceInfoRepository extends JpaRepository<FinanceInfo, UUID> {
 
-    public Optional<FinanceInfo> findByClientId(Long clientId);
+    public Optional<FinanceInfo> findByClientId(UUID clientId);
 }

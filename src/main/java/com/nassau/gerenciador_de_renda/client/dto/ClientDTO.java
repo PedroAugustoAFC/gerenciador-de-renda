@@ -3,10 +3,12 @@ package com.nassau.gerenciador_de_renda.client.dto;
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class ClientDTO {
 
-    private Long id;
+    private UUID id;
     private String name;
     private String email;
 

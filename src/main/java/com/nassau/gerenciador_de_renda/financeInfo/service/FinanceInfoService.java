@@ -8,13 +8,15 @@ import com.nassau.gerenciador_de_renda.financeInfo.model.FinanceInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class FinanceInfoService {
 
     @Autowired
     private FinanceInfoRepository financeInfoRepository;
 
-    public FinanceInfoDTO getFinanceInfoByClientId(Long clientId) {
+    public FinanceInfoDTO getFinanceInfoByClientId(UUID clientId) {
         FinanceInfo financeInfo = financeInfoRepository.findByClientId(clientId)
                 .orElseThrow(() -> new RuntimeException("Informações financeiras do cliente de id " + clientId + " não encontradas."));
         return new FinanceInfoDTO(financeInfo);
@@ -25,7 +27,7 @@ public class FinanceInfoService {
         return new FinanceInfoDTO(savedInfo);
     }
 
-    public FinanceInfoDTO updateFinanceInfo(Long clientId, FinanceInfoUpdateDTO updateFinanceInfo) {
+    public FinanceInfoDTO updateFinanceInfo(UUID clientId, FinanceInfoUpdateDTO updateFinanceInfo) {
         FinanceInfo existingInfo = financeInfoRepository.findByClientId(clientId)
                 .orElseThrow(() -> new RuntimeException("Informações financeiras do cliente de id " + clientId + " não encontradas."));
 
@@ -52,7 +54,7 @@ public class FinanceInfoService {
         return new FinanceInfoDTO(updatedInfo);
     }
 
-    public FinanceInfoDTO updateNetWorthAfterExpense(Long clientId, double expenseValue) {
+    public FinanceInfoDTO updateNetWorthAfterExpense(UUID clientId, double expenseValue) {
         FinanceInfo existingInfo = financeInfoRepository.findByClientId(clientId)
                 .orElseThrow(() -> new RuntimeException("Informações financeiras do cliente de id " + clientId + " não encontradas."));
 
@@ -69,7 +71,7 @@ public class FinanceInfoService {
         return new FinanceInfoDTO(updatedInfo);
     }
 
-    public FinanceInfoDTO updateNetWorthAfterRevenue(Long clientId, double revenueValue) {
+    public FinanceInfoDTO updateNetWorthAfterRevenue(UUID clientId, double revenueValue) {
         FinanceInfo existingInfo = financeInfoRepository.findByClientId(clientId)
                 .orElseThrow(() -> new RuntimeException("Informações financeiras do cliente de id " + clientId + " não encontradas."));
 
@@ -82,7 +84,7 @@ public class FinanceInfoService {
         return new FinanceInfoDTO(updatedInfo);
     }
 
-    public void deleteFinanceInfo(Long id) {
+    public void deleteFinanceInfo(UUID id) {
         if(!financeInfoRepository.existsById(id)) {
             throw new RuntimeException("Informações financeiras com id " + id + " não encontradas.");
         }

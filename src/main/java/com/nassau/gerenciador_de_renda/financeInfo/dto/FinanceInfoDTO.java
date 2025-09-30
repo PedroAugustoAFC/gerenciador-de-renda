@@ -3,10 +3,11 @@ package com.nassau.gerenciador_de_renda.financeInfo.dto;
 import com.nassau.gerenciador_de_renda.financeInfo.model.FinanceInfo;
 
 import java.util.List;
+import java.util.UUID;
 
 public class FinanceInfoDTO {
 
-    private Long id;
+    private UUID id;
     private Double income;
     private String profission;
     private List<String> dependents;

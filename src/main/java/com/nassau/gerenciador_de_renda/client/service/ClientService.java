@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ClientService {
 
@@ -24,7 +26,7 @@ public class ClientService {
     private PasswordEncoder passwordEncoder;
 
 
-    public ClientDTO getClientById(Long id){
+    public ClientDTO getClientById(UUID id){
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente com id " + id + " nao encontrado"));
         return new ClientDTO(client);
@@ -45,7 +47,7 @@ public class ClientService {
         return new ClientDTO(savedClient);
     }
 
-    public ClientDTO updateClient(Long id, ClientUpdateDTO updatedClient){
+    public ClientDTO updateClient(UUID id, ClientUpdateDTO updatedClient){
         Client existingClient = clientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente com id " + id + " nao encontrado"));
 
@@ -66,7 +68,7 @@ public class ClientService {
         }
 
         if(updatedClient.getPassword() != null){
-            if(existingClient.getPassword().equals(updatedClient.getPassword())){
+            if(passwordEncoder.matches(updatedClient.getPassword(), existingClient.getPassword())){
                 throw new ResourceAlreadyRegisteredException("Senha igual a anterior");
             }
             String encodedPassword = passwordEncoder.encode(updatedClient.getPassword());
@@ -78,7 +80,7 @@ public class ClientService {
 
     }
 
-    public void deleteClient(Long id){
+    public void deleteClient(UUID id){
 
         if(!clientRepository.existsById(id)){
             throw new ResourceNotFoundException("Cliente com id " + id + " nao encontrado");

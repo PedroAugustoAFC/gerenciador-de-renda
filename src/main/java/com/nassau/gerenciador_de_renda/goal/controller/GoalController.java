@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/goals")
 public class GoalController {
@@ -17,19 +19,19 @@ public class GoalController {
     private GoalService goalService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> expenseById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> expenseById(@PathVariable("id") UUID id) {
         Goal goal = goalService.getGoalById(id);
         return ResponseEntity.ok(goal);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<GoalDTO> expenseUpdate(@PathVariable("id") Long id, @Valid @RequestBody GoalUpdateDTO goalUpdateDTO) {
+    public ResponseEntity<GoalDTO> expenseUpdate(@PathVariable("id") UUID id, @Valid @RequestBody GoalUpdateDTO goalUpdateDTO) {
         GoalDTO goalDTO = goalService.updateGoal(id, goalUpdateDTO);
         return ResponseEntity.ok(goalDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> expenseDelete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> expenseDelete(@PathVariable("id") UUID id) {
         goalService.deleteGoal(id);
         return ResponseEntity.noContent().build();
     }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +28,7 @@ public class ExpenseService {
     private ClientService clientService;
 
     @Transactional(readOnly = true)
-    public List<ExpenseDTO> getFilteredExpensesByClient(Long clientId, LocalDate startDate, LocalDate endDate, String category) {
+    public List<ExpenseDTO> getFilteredExpensesByClient(UUID clientId, LocalDate startDate, LocalDate endDate, String category) {
 
         if (startDate == null && endDate == null && (category == null || category.trim().isEmpty())) {
             return expenseRepository.findExpensesByClientId(clientId)
@@ -70,7 +71,7 @@ public class ExpenseService {
         return new ExpenseDTO(savedExpense);
     }
 
-    public ExpenseDTO updateExpense(Long id, ExpenseUpdateDTO updatedExpense){
+    public ExpenseDTO updateExpense(UUID id, ExpenseUpdateDTO updatedExpense){
         Expense existingExpense = expenseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Despesa com id " + id + " não encontrada"));
 
@@ -100,7 +101,7 @@ public class ExpenseService {
 
     }
 
-    public void deleteExpense(Long id){
+    public void deleteExpense(UUID id){
         if(!expenseRepository.existsById(id)){
             throw new ResourceNotFoundException("Despesa com id " + id + " não encontrada");
         }

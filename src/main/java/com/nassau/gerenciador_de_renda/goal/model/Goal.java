@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_goal")
@@ -22,7 +23,7 @@ public class Goal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-]+$", message = "Profissão deve conter apenas letras")
     @Length(min = 3, message = "Profissão deve ter no mínimo 3 caracteres")
@@ -40,7 +41,7 @@ public class Goal {
     private LocalDateTime dateCreated;
 
     @Column(name = "client_id", nullable = false)
-    private Long clientId;
+    private UUID clientId;
 
     @ManyToOne(
             fetch = FetchType.LAZY,

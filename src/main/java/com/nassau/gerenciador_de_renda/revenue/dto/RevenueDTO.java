@@ -6,10 +6,11 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 public class RevenueDTO {
-    private Long id;
+    private UUID id;
     private String description;
     private double amount;
     private LocalDateTime dateCreated;
