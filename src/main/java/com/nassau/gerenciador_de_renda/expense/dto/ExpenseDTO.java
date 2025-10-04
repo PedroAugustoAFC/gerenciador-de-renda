@@ -19,7 +19,7 @@ public class ExpenseDTO {
     private LocalDate datePaid;
     private ExpenseCategory category;
     private String paymentMethod;
-    private String familyMemberName;
+    private String payer;
 
     public ExpenseDTO() {
     }
@@ -32,6 +32,6 @@ public class ExpenseDTO {
         datePaid = entity.getDatePaid();
         category = entity.getCategory();
         paymentMethod = entity.getPaymentMethod();
-        familyMemberName = entity.getFamilyMemberName();
+        payer = entity.getPayer();
     }
 }

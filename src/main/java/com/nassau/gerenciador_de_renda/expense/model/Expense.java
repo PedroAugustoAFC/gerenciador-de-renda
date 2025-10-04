@@ -1,8 +1,7 @@
 package com.nassau.gerenciador_de_renda.expense.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import com.nassau.gerenciador_de_renda.expense.model.categoryEnum.ExpenseCategory;
 import jakarta.persistence.*;
@@ -26,6 +25,7 @@ public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @JsonProperty(access = Access.READ_ONLY)
     private UUID id;
 
     @Column(length = 255)
@@ -37,6 +37,7 @@ public class Expense {
     private double amount;
 
     @Column(nullable = false)
+    @JsonProperty(access = Access.READ_ONLY)
     private LocalDateTime dateCreated;
 
     @Column(nullable = false)
@@ -57,9 +58,10 @@ public class Expense {
     @NotBlank(message = "Nome do membro da família não pode ser vazio")
     @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-]+$", message = "Nome deve conter apenas letras")
     @Length(min = 3, max = 25, message = "Nome deve ter no minimo 3")
-    private String familyMemberName;
+    private String payer;
 
     @Column(name = "client_id", nullable = false)
+    @JsonProperty(access = Access.READ_ONLY)
     private UUID clientId;
 
     @ManyToOne(
@@ -67,6 +69,7 @@ public class Expense {
             optional = false
     )
     @JoinColumn(name = "client_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Client client;
 
     @JsonSetter("category")

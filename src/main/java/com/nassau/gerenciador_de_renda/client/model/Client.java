@@ -1,5 +1,8 @@
 package com.nassau.gerenciador_de_renda.client.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.nassau.gerenciador_de_renda.expense.model.Expense;
 import com.nassau.gerenciador_de_renda.financeInfo.model.FinanceInfo;
 import com.nassau.gerenciador_de_renda.goal.model.Goal;
@@ -16,6 +19,7 @@ import org.hibernate.validator.constraints.Length;
 import java.util.List;
 import java.util.UUID;
 
+
 @Entity
 @Table(name = "tb_client")
 @Data
@@ -25,6 +29,7 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @JsonProperty(access = Access.READ_ONLY)
     private UUID id;
 
     @Column(nullable = false)
@@ -52,6 +57,7 @@ public class Client {
             cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY
     )
+    @JsonIgnore
     private List<Expense> expenses;
 
     @OneToOne(
@@ -60,6 +66,7 @@ public class Client {
             fetch = FetchType.LAZY,
             optional = true
     )
+    @JsonIgnore
     private FinanceInfo financeInfo;
 
     @OneToMany(
@@ -67,6 +74,7 @@ public class Client {
             cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY
     )
+    @JsonIgnore
     private List<Goal> goals;
 
     @OneToMany(
@@ -74,6 +82,7 @@ public class Client {
             cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY
     )
+    @JsonIgnore
     private List<Revenue> revenues;
 
 }

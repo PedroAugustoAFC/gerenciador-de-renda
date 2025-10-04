@@ -1,6 +1,9 @@
 package com.nassau.gerenciador_de_renda.goal.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -23,6 +26,7 @@ public class Goal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = Access.READ_ONLY)
     private UUID id;
 
     @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-]+$", message = "Profissão deve conter apenas letras")
@@ -38,9 +42,11 @@ public class Goal {
     private LocalDate targetDate;
 
     @NotBlank(message = "Data alvo não pode ser vazia")
+    @JsonProperty(access = Access.READ_ONLY)
     private LocalDateTime dateCreated;
 
     @Column(name = "client_id", nullable = false)
+    @JsonProperty(access = Access.READ_ONLY)
     private UUID clientId;
 
     @ManyToOne(
@@ -48,6 +54,7 @@ public class Goal {
             optional = false
     )
     @JoinColumn(name = "client_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Client client;
 
 }

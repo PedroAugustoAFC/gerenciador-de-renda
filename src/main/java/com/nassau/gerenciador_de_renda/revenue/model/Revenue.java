@@ -1,11 +1,11 @@
 package com.nassau.gerenciador_de_renda.revenue.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.nassau.gerenciador_de_renda.client.model.Client;
 import com.nassau.gerenciador_de_renda.expense.model.categoryEnum.ExpenseCategory;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,6 +27,7 @@ public class Revenue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = Access.READ_ONLY)
     private UUID id;
 
     @Column(length = 255)
@@ -34,10 +35,11 @@ public class Revenue {
     private String description;
 
     @Column(nullable = false)
-    @Min(value = 1, message = "Valor deve ser maior que zero")
+    @DecimalMin(value = "0.01", inclusive = true, message = "O valor deve ser maior ou igual a 0,01")
     private double amount;
 
     @Column(nullable = false)
+    @JsonProperty(access = Access.READ_ONLY)
     private LocalDateTime dateCreated;
 
     @Column(nullable = false)
@@ -51,6 +53,7 @@ public class Revenue {
     private ExpenseCategory category;
 
     @Column(name = "client_id", nullable = false)
+    @JsonProperty(access = Access.READ_ONLY)
     private UUID clientId;
 
     @ManyToOne(
@@ -58,6 +61,7 @@ public class Revenue {
             optional = false
     )
     @JoinColumn(name = "client_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Client client;
 
     @JsonSetter("category")
