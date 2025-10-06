@@ -1,8 +1,8 @@
 package com.nassau.gerenciador_de_renda.client.performance;
 
-import com.nassau.gerenciador_de_renda.client.model.Client;
-import com.nassau.gerenciador_de_renda.client.repository.ClientRepository;
-import com.nassau.gerenciador_de_renda.client.service.ClientService;
+import com.nassau.gerenciador_de_renda.api.client.model.Client;
+import com.nassau.gerenciador_de_renda.api.client.repository.ClientRepository;
+import com.nassau.gerenciador_de_renda.api.client.service.ClientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;

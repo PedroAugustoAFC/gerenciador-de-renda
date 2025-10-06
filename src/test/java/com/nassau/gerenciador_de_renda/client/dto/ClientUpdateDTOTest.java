@@ -1,5 +1,6 @@
 package com.nassau.gerenciador_de_renda.client.dto;
 
+import com.nassau.gerenciador_de_renda.api.client.dto.ClientUpdateDTO;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ConstraintViolation;

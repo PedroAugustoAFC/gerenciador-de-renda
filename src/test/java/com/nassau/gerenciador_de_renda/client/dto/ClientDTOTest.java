@@ -1,6 +1,7 @@
 package com.nassau.gerenciador_de_renda.client.dto;
 
-import com.nassau.gerenciador_de_renda.client.model.Client;
+import com.nassau.gerenciador_de_renda.api.client.dto.ClientDTO;
+import com.nassau.gerenciador_de_renda.api.client.model.Client;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;

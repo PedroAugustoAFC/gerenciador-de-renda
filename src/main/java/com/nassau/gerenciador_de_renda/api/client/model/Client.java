@@ -1,0 +1,88 @@
+package com.nassau.gerenciador_de_renda.api.client.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.nassau.gerenciador_de_renda.api.expense.model.Expense;
+import com.nassau.gerenciador_de_renda.api.financeInfo.model.FinanceInfo;
+import com.nassau.gerenciador_de_renda.api.goal.model.Goal;
+import com.nassau.gerenciador_de_renda.api.revenue.model.Revenue;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
+import java.util.UUID;
+
+
+@Entity
+@Table(name = "tb_client")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Client {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @JsonProperty(access = Access.READ_ONLY)
+    private UUID id;
+
+    @Column(nullable = false)
+    @Length(min = 3,max = 60,message = "Nome deve ter no minimo 3")
+    @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-]+$", message = "Nome deve conter apenas letras")
+    @NotBlank(message = "Nome não pode ser vazio")
+    private String name;
+
+    @Column(nullable = false,unique = true)
+    @NotBlank(message = "Email não pode ser vazio")
+    @Email(message = "Email invalido")
+    private String email;
+
+    @Column(nullable = false)
+    @NotBlank(message = "Senha não pode ser vazia")
+    @Length(min = 8,message = "Senha deve ter no minimo 8 caracteres")
+    @Pattern(
+            regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[^A-Za-z\\d]).+$",
+            message = "A senha deve conter pelo menos uma letra, um número e um símbolo"
+    )
+    private String password;
+
+    @OneToMany(
+            mappedBy = "client",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
+    private List<Expense> expenses;
+
+    @OneToOne(
+            mappedBy = "client",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY,
+            optional = true
+    )
+    @JsonIgnore
+    private FinanceInfo financeInfo;
+
+    @OneToMany(
+            mappedBy = "client",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
+    private List<Goal> goals;
+
+    @OneToMany(
+            mappedBy = "client",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
+    private List<Revenue> revenues;
+
+}

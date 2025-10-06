@@ -1,10 +1,11 @@
 package com.nassau.gerenciador_de_renda.client.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nassau.gerenciador_de_renda.client.dto.ClientDTO;
-import com.nassau.gerenciador_de_renda.client.dto.ClientUpdateDTO;
-import com.nassau.gerenciador_de_renda.client.service.ClientService;
-import com.nassau.gerenciador_de_renda.security.ValidateAccessService;
+import com.nassau.gerenciador_de_renda.api.client.controller.ClientController;
+import com.nassau.gerenciador_de_renda.api.client.dto.ClientDTO;
+import com.nassau.gerenciador_de_renda.api.client.dto.ClientUpdateDTO;
+import com.nassau.gerenciador_de_renda.api.client.service.ClientService;
+import com.nassau.gerenciador_de_renda.api.security.ValidateAccessService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
