@@ -1,6 +1,6 @@
 package com.nassau.gerenciador_de_renda.api.expense.repository;
 
-import com.nassau.gerenciador_de_renda.api.expense.model.categoryEnum.ExpenseCategory;
+import com.nassau.gerenciador_de_renda.api.expense.model.expenseEnum.ExpenseCategory;
 import com.nassau.gerenciador_de_renda.api.expense.model.Expense;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

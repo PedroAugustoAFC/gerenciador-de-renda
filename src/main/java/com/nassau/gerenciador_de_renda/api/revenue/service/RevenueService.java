@@ -2,6 +2,7 @@ package com.nassau.gerenciador_de_renda.api.revenue.service;
 
 import com.nassau.gerenciador_de_renda.api.exceptions.ResourceAlreadyRegisteredException;
 import com.nassau.gerenciador_de_renda.api.exceptions.ResourceNotFoundException;
+import com.nassau.gerenciador_de_renda.api.expense.model.expenseEnum.ExpenseCategory;
 import com.nassau.gerenciador_de_renda.api.revenue.dto.RevenueDTO;
 import com.nassau.gerenciador_de_renda.api.revenue.dto.RevenueUpdateDTO;
 import com.nassau.gerenciador_de_renda.api.revenue.model.Revenue;
@@ -55,7 +56,7 @@ public class RevenueService {
                 throw new IllegalArgumentException("Categoria inválida: " + category);
             }
         }
-
+        RevenueCategory categoryToFilter = (categoryEnum == RevenueCategory.NENHUM) ? null : categoryEnum;
         return revenueRepository.findFilteredRevenuesByClientId(clientId, startDate, endDate, categoryEnum)
                 .stream()
                 .map(RevenueDTO::new)

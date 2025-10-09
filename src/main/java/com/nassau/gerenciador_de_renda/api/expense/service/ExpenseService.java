@@ -3,7 +3,7 @@ package com.nassau.gerenciador_de_renda.api.expense.service;
 import com.nassau.gerenciador_de_renda.api.client.service.ClientService;
 import com.nassau.gerenciador_de_renda.api.exceptions.ResourceAlreadyRegisteredException;
 import com.nassau.gerenciador_de_renda.api.exceptions.ResourceNotFoundException;
-import com.nassau.gerenciador_de_renda.api.expense.model.categoryEnum.ExpenseCategory;
+import com.nassau.gerenciador_de_renda.api.expense.model.expenseEnum.ExpenseCategory;
 import com.nassau.gerenciador_de_renda.api.expense.dto.ExpenseDTO;
 import com.nassau.gerenciador_de_renda.api.expense.dto.ExpenseUpdateDTO;
 import com.nassau.gerenciador_de_renda.api.expense.repository.ExpenseRepository;
@@ -30,7 +30,6 @@ public class ExpenseService {
 
     @Transactional(readOnly = true)
     public List<ExpenseDTO> getFilteredExpensesByClient(UUID clientId, LocalDate startDate, LocalDate endDate, String category) {
-
         if (startDate == null && endDate == null && (category == null || category.trim().isEmpty())) {
             return expenseRepository.findExpensesByClientId(clientId)
                     .stream()
@@ -59,7 +58,7 @@ public class ExpenseService {
                 throw new IllegalArgumentException("Categoria inválida: " + category);
             }
         }
-
+        ExpenseCategory categoryToFilter = (categoryEnum == ExpenseCategory.NENHUM) ? null : categoryEnum;
         return expenseRepository.findFilteredExpensesByClientId(clientId, startDate, endDate, categoryEnum)
                 .stream()
                 .map(ExpenseDTO::new)

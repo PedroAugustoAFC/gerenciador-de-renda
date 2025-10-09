@@ -1,6 +1,7 @@
-package com.nassau.gerenciador_de_renda.api.expense.model.categoryEnum;
+package com.nassau.gerenciador_de_renda.api.expense.model.expenseEnum;
 
 public enum ExpenseCategory {
+    NENHUM("Nenhum"),
     MORADIA("Moradia"),
     SERVICOS_BASICOS("Serviços básicos"),
     ALIMENTACAO("Alimentação"),

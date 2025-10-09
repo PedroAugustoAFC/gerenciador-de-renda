@@ -2,7 +2,8 @@ package com.nassau.gerenciador_de_renda.api.expense.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nassau.gerenciador_de_renda.api.expense.model.Expense;
-import com.nassau.gerenciador_de_renda.api.expense.model.categoryEnum.ExpenseCategory;
+import com.nassau.gerenciador_de_renda.api.expense.model.expenseEnum.ExpenseCategory;
+import com.nassau.gerenciador_de_renda.api.expense.model.expenseEnum.ExpensePaymentMethod;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ public class ExpenseDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate datePaid;
     private ExpenseCategory category;
-    private String paymentMethod;
+    private ExpensePaymentMethod paymentMethod;
     private String payer;
 
     public ExpenseDTO() {

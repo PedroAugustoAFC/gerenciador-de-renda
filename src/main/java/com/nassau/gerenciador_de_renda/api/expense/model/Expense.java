@@ -3,7 +3,8 @@ package com.nassau.gerenciador_de_renda.api.expense.model;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.nassau.gerenciador_de_renda.api.client.model.Client;
-import com.nassau.gerenciador_de_renda.api.expense.model.categoryEnum.ExpenseCategory;
+import com.nassau.gerenciador_de_renda.api.expense.model.expenseEnum.ExpenseCategory;
+import com.nassau.gerenciador_de_renda.api.expense.model.expenseEnum.ExpensePaymentMethod;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -50,8 +51,9 @@ public class Expense {
     private ExpenseCategory category;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     @NotBlank(message = "Método de pagamento não pode ser vazio")
-    private String paymentMethod;
+    private ExpensePaymentMethod paymentMethod;
 
     @Column(nullable = false)
     @NotBlank(message = "Nome do membro da família não pode ser vazio")

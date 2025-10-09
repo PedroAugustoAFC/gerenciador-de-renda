@@ -1,6 +1,7 @@
 package com.nassau.gerenciador_de_renda.api.revenue.model.categoryEnum;
 
 public enum RevenueCategory {
+    NENHUM("Nenhum"),
     SALARIO("Salário"),
     AUTONOMO("Autônomo"),
     MEI("MEI"),

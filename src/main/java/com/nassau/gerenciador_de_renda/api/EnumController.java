@@ -1,6 +1,7 @@
 package com.nassau.gerenciador_de_renda.api;
 
-import com.nassau.gerenciador_de_renda.api.expense.model.categoryEnum.ExpenseCategory;
+import com.nassau.gerenciador_de_renda.api.expense.model.expenseEnum.ExpenseCategory;
+import com.nassau.gerenciador_de_renda.api.expense.model.expenseEnum.ExpensePaymentMethod;
 import com.nassau.gerenciador_de_renda.api.revenue.model.categoryEnum.RevenueCategory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +13,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/categories")
-public class CategoryController {
+@RequestMapping("/api")
+public class EnumController {
 
-    @GetMapping("/expenses")
+    @GetMapping("/payment-methods/expenses")
+    public ResponseEntity<List<String>> getExpensePaymentMethods() {
+        List<String> paymentMethods = Arrays.stream(ExpensePaymentMethod.values())
+                .map(ExpensePaymentMethod::getDisplayName)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(paymentMethods);
+    }
+
+    @GetMapping("/categories/expenses")
     public ResponseEntity<List<String>> getExpenseCategories() {
         List<String> categories = Arrays.stream(ExpenseCategory.values())
                 .map(ExpenseCategory::getDisplayName)
@@ -23,7 +32,7 @@ public class CategoryController {
         return ResponseEntity.ok(categories);
     }
 
-    @GetMapping("/revenues")
+    @GetMapping("/categories/revenues")
     public ResponseEntity<List<String>> getRevenueCategories() {
         List<String> categories = Arrays.stream(RevenueCategory.values())
                 .map(RevenueCategory::getDisplayName)
